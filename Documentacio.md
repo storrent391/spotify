@@ -15,7 +15,7 @@
     - Media
 
 3. Guardar únicament les URLs
-    - De forma temporal només es guardarà a la base de dades les URLs de la ubicació dels arxius d'audio
+    - De forma temporal només es guardarà a la base de dades les URLs amb la ubicació dels arxius d'audio
 
 ```
 
