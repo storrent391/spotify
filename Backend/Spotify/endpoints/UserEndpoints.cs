@@ -1,23 +1,25 @@
+using Spotify.Services;
+using Spotify.Repository;
 namespace Spotify.Endpoints;
 
-public static class MapUserEndpoints
+public static class UserEndpoints
 {
     public static void MapUserEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
         // GET /users
         app.MapGet("/users", () =>
         {
-            var products = ProductADO.GetAll(dbConn);
+            var users = UserADO.GetAll(dbConn);
             return Results.Ok(users);
         });
 
         // GET /user/{id}
         app.MapGet("/user/{id}", (Guid id) =>
         {
-            var product = ProductADO.GetById(dbConn, id);
-            return product is not null
-                ? Results.Ok(product)
-                : Results.NotFound(new { message = $"Product with Id {id} not found." });
+            var user = UserADO.GetById(dbConn, id);
+            return user is not null
+                ? Results.Ok(user)
+                : Results.NotFound(new { message = $"User with Id {id} not found." });
         });
 
         // POST /user
@@ -38,7 +40,7 @@ public static class MapUserEndpoints
         // PUT /user/{id}
         app.MapPut("/user/{id}", (Guid id, UserRequest req) =>
         {
-            var existing = ProductADO.GetById(dbConn, id);
+            var existing = UserADO.GetById(dbConn, id);
             if (existing == null)
                 return Results.NotFound();
 
@@ -52,7 +54,7 @@ public static class MapUserEndpoints
         // DELETE /user/{id}
         app.MapDelete("/user/{id}", (Guid id) =>
         {
-            var deleted = ProductADO.Delete(dbConn, id);
+            var deleted = UserADO.Delete(dbConn, id);
             return deleted ? Results.NoContent() : Results.NotFound();
         });
     }
