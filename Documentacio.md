@@ -14,6 +14,9 @@
     - SongPlaylist
     - Media
 
+3. Guardar únicament les URLs
+    - De forma temporal només es guardarà a la base de dades les URLs de la ubicació dels arxius d'audio
+
 ```
 
 ### API
@@ -45,6 +48,9 @@
 5. Encriptació Passwords
     -Salt
     -Hash
+
+6. Mostrar metadates fitxers .mp3
+    - Fent referència al punt 3 de Base de dades, de forma temporal s'han de mostrar les metadates per terminal.
 
 ```
 
