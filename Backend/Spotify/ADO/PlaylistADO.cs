@@ -35,16 +35,10 @@ class PlaylistADO
                        WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", product.Id);
-        cmd.Parameters.AddWithValue("@Code", product.Code);
-        cmd.Parameters.AddWithValue("@Name", product.Name);
-        cmd.Parameters.AddWithValue("@Price", product.Price);
-        cmd.Parameters.AddWithValue("@Image", product.ImagePath);
-
-        int rows = cmd.ExecuteNonQuery();
-
-        Console.WriteLine($"{rows} fila actualitzada.");
-       
+        cmd.Parameters.AddWithValue("@Id", playlist.Id);
+        cmd.Parameters.AddWithValue("@Name", playlist.Name);
+        cmd.Parameters.AddWithValue("@Salt", playlist.Price);
+        cmd.ExecuteNonQuery();
         dbConn.Close();
     }
 
