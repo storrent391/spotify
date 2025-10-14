@@ -1,8 +1,8 @@
 using Microsoft.Data.SqlClient;
 using static System.Console;
-using dbdemo.Model;
+using Spotify.Model;
 
-namespace dbdemo.Services;
+namespace Spotify.Services;
 
 public class DatabaseConnection
 {

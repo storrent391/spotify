@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Spotify.Services;
 using Spotify.Endpoints;
 
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Configuració JSON
