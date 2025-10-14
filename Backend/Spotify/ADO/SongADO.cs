@@ -13,7 +13,7 @@ namespace Spotify.Repository;
 
 class SongADO
 {
-    public static Insert(DatabaseConnection dbConn, Song song)
+    public static void Insert(DatabaseConnection dbConn, Song song)
     {
         dbConn.Open();
 
@@ -26,6 +26,7 @@ class SongADO
 
         int rows = cmd.ExecuteNonQuery();
         Console.WriteLine($"{rows} fila inserida.");
+
         dbConn.Close();
     }
     public static List<Song> GetAll(DatabaseConnection dbConn)
@@ -46,6 +47,8 @@ class SongADO
                 NamedArgumentsEncoder = reader.GetString(1),
             });
         }
+        dbConn.Close();
+        return songs;
     }
 
     public static Song? GetById(DatabaseConnection dbConn, Guid Id)
@@ -65,9 +68,12 @@ class SongADO
                 Name = reader.GetString(1),
             };
         }
+
+        dbConn.Close();
+        return song;
     }
 
-    public static Update(DatabaseConnection dbConn, Song song)
+    public static void Update(DatabaseConnection dbConn, Song song)
     {
         dbConn.Open();
 
@@ -76,13 +82,14 @@ class SongADO
                         Name = @Name
                         WHERE Id = @Id";
         using SqlCommand cmd = new SqlCommand(sql, dbConn.slqConnectoin);
-        cmd.Parameters.AddWithValue("@Id", product.Id);
-        cmd.Parameters.AddWithValue("@Name", product.Name);
+        cmd.Parameters.AddWithValue("@Id", song.Id);
+        cmd.Parameters.AddWithValue("@Name", song.Name);
 
         int rows = cmd.ExecuteNonQuery();
 
-        Console.WriteLine($"{rows} fila actualitzada.");
+        // Console.WriteLine($"{rows} fila actualitzada.");
 
+        cmd.ExecuteNonQuery();
         dbConn.Close();
     }
 
