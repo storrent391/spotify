@@ -8,35 +8,31 @@ namespace dbdemo.Repository;
 class PlaylistADO
 {
    
-    public static void Insert(DatabaseConnection dbConn,Product product)    // El mètode ha de passar a ser static
+    public static void Insert(DatabaseConnection dbConn,Playlist playlist)    // El mètode ha de passar a ser static
     {
 
         dbConn.Open();
 
-        string sql = @"INSERT INTO Playlist (Id, Code, Name, Price)
-                        VALUES (@Id, @Code, @Name, @Price)";
+        string sql = @"INSERT INTO Playlist (Id, Name, User_Id)
+                        VALUES (@Id, @Name , @Name)";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", product.Id);
-        cmd.Parameters.AddWithValue("@Code", product.Code);
-        cmd.Parameters.AddWithValue("@Name", product.Name);
-        cmd.Parameters.AddWithValue("@Price", product.Price);
-
-        int rows = cmd.ExecuteNonQuery();
-        Console.WriteLine($"{rows} fila inserida.");
+        cmd.Parameters.AddWithValue("@Id", playlist.Id);
+        cmd.Parameters.AddWithValue("@Name", playlist.Name);
+        cmd.Parameters.AddWithValue("@Price", playlist.Price);
+        cmd.ExecuteNonQuery();
         dbConn.Close();
     }
 
-    public static void Update(DatabaseConnection dbConn, Product product)
+    public static void Update(DatabaseConnection dbConn, Playlist playlist)
     {
         dbConn.Open();
 
-        string sql = @"UPDATE Products
-                    SET Code = @Code,
-                        Name = @Name,
-                        Price = @Price,
-                        Image = @Image
-                    WHERE Id = @Id";
+        string sql =@"UPDATE Playlist
+                       SET Name = @Name,
+                           User_Id = @User_Id,
+                           Salt = @Salt
+                       WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", product.Id);
