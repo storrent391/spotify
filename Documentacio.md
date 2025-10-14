@@ -28,6 +28,7 @@
     - Song
     - Playist
     - SongPlaylist
+    - Media
 
 3. Crear CRUDS / Endpoints (Delete nomes si no hi han relacions)
     - Users
