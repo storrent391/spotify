@@ -8,56 +8,56 @@ namespace Spotify.Repository;
 class PlaylistADO
 {
    
-    public static void Insert(DatabaseConnection dbConn,Playlist playlist)    // El mètode ha de passar a ser static
+    public static void Insert(DatabaseConnection dbConn,SongPlaylist songPlaylist)    // El mètode ha de passar a ser static
     {
 
         dbConn.Open();
 
-        string sql = @"INSERT INTO Playlist (Id, Name, User_Id)
-                        VALUES (@Id, @Name , @User_Id)";
+        string sql = @"INSERT INTO SongPlaylist (Id, Song_Id, Playlist_Id)
+                        VALUES (@Id, @Song_Id , @Playlist_Id)";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", playlist.Id);
-        cmd.Parameters.AddWithValue("@Name", playlist.Name);
-        cmd.Parameters.AddWithValue("@User_Id", playlist.Price);
+        cmd.Parameters.AddWithValue("@Id", songPlaylist.Id);
+        cmd.Parameters.AddWithValue("@Song_Id", songPlaylist.Song_Id);
+        cmd.Parameters.AddWithValue("@Playlist_Id", songPlaylist.Playlist_Id);
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
 
-    public static void Update(DatabaseConnection dbConn, Playlist playlist)
+    public static void Update(DatabaseConnection dbConn, SongPlaylist songPlaylist)
     {
-        dbConn.Open(); 
+        dbConn.Open();
 
-        string sql =@"UPDATE Playlist
-                       SET Name = @Name,
-                           User_Id = @User_Id,
+        string sql =@"UPDATE SongPlaylist
+                       SET Song_Id = @Song_Id,
+                           Playlist_Id = @Playlist_Id,
                        WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", playlist.Id);
-        cmd.Parameters.AddWithValue("@Name", playlist.Name);
-        cmd.Parameters.AddWithValue("@User_Id", playlist.User_Id);
+        cmd.Parameters.AddWithValue("@Id", songPlaylist.Id);
+        cmd.Parameters.AddWithValue("@Song_Id", songPlaylist.Song_Id);
+        cmd.Parameters.AddWithValue("@Playlist_Id", songPlaylist.Playlist_Id);
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
 
-    public static List<Playlist> GetAll(DatabaseConnection dbConn)
+    public static List<SongPlaylist> GetAll(DatabaseConnection dbConn)
     {
-        List<Playlist> playlist = new();
+        List<SongPlaylist> songPlaylist = new();
 
         dbConn.Open();
-        string sql = "SELECT Id, Name,User_Id FROM Playlist";
+        string sql = "SELECT Id, Song_Id,Playlist_Id FROM SongPlaylist";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
-            playlist.Add(new Product
+            playlist.Add(new SongPlaylist
             {
                 Id = reader.GetGuid(0),
-                Name = reader.GetString(2),
-                User_Id = reader.GetDecimal(3)
+                Song_Id = reader.GetString(2),
+                Playlist_Id = reader.GetGuid(3)
             });
         }
 
@@ -68,7 +68,7 @@ class PlaylistADO
     public static Playlist? GetById(DatabaseConnection dbConn, Guid id)
     {
         dbConn.Open();
-        string sql = "SELECT Id, Name, User_Id FROM Playlist WHERE Id = @Id";
+        string sql = "SELECT Id, Song_Id, Playlist_Id FROM Playlist WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", id);
@@ -81,8 +81,8 @@ class PlaylistADO
             playlist = new Playlist
             {
                 Id = reader.GetGuid(0),
-                Name = reader.GetString(2),
-                User_Id = reader.GetGuid(3)
+                Song_Id = reader.GetString(2),
+                Playlist_Id = reader.GetDecimal(3)
             };
         }
 
