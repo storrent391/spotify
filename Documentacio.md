@@ -12,6 +12,8 @@
     - Songs
     - Playlists
     - SongPlaylist
+    - Media
+
 ```
 
 ### API
@@ -22,6 +24,7 @@
     - Song
     - Playist
     - SongPlaylist
+    - Media
 
 2. Crear ADOs
     - User
@@ -35,6 +38,7 @@
     - Songs
     - Playlists
     - SongPlaylist
+    - Media
 
 4. Carrega D'arxius amb processament paral·lel
 
