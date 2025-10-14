@@ -1,33 +1,30 @@
 using Microsoft.Data.SqlClient;
 using Spotify.Services;
-
-namespace Spotify.RepositoryUser;
+using Spotify.Model;
+namespace Spotify.Repository;
 
 public class UserADO
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = "";
-    public string Password { get; set; }
-    public string Salt { get; set; }
 
-    public static void Insert(DatabaseConnection dbConn, UserADO user)
+
+    public static void Insert(DatabaseConnection dbConn, User user)
 {
     dbConn.Open();
     string sql = @"INSERT INTO Users (Id, Name, Password, Salt)
                    VALUES (@Id, @Name, @Password, @Salt)";
     using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-    cmd.Parameters.AddWithValue("@Id", product.Id);
-    cmd.Parameters.AddWithValue("@Name", product.Name);
-    cmd.Parameters.AddWithValue("@Password", product.Password);
-    cmd.Parameters.AddWithValue("@Salt", product.Salt);
+    cmd.Parameters.AddWithValue("@Id", user.Id);
+    cmd.Parameters.AddWithValue("@Name", user.Name);
+    cmd.Parameters.AddWithValue("@Password", user.Password);
+    cmd.Parameters.AddWithValue("@Salt", user.Salt);
     cmd.ExecuteNonQuery();
     dbConn.Close();
 }
 
 
-    public static List<UserADO> GetAll(DatabaseConnection dbConn)
+    public static List<User> GetAll(DatabaseConnection dbConn)
     {
-        List<UserADO> list = new();
+        List<User> list = new();
         dbConn.Open();
 
         string sql = "SELECT Id, Name, Password, Salt FROM Users";
@@ -36,7 +33,7 @@ public class UserADO
 
         while (reader.Read())
         {
-            list.Add(new UserADO
+            list.Add(new User
             {
                 Id = reader.GetGuid(0),
                 Name = reader.GetString(1),
@@ -49,7 +46,7 @@ public class UserADO
         return list;
     }
 
-    public static UserADO? GetById(DatabaseConnection dbConn, Guid id)
+    public static User? GetById(DatabaseConnection dbConn, Guid id)
     {
         dbConn.Open();
         string sql = "SELECT Id, Name, Password, Salt FROM Users WHERE Id = @Id";
@@ -58,11 +55,11 @@ public class UserADO
         cmd.Parameters.AddWithValue("@Id", id);
 
         using SqlDataReader reader = cmd.ExecuteReader();
-        ProductADO? product = null;
+        User? product = null;
 
         if (reader.Read())
         {
-            product = new ProductADO
+            user = new User
             {
                 Id = reader.GetGuid(0),
                 Name = reader.GetString(1),
@@ -75,7 +72,7 @@ public class UserADO
         return product;
     }
 
-    public static void Update(DatabaseConnection dbConn, ProductADO product)
+    public static void Update(DatabaseConnection dbConn, User product)
     {
         dbConn.Open();
 
