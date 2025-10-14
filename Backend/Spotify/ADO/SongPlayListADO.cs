@@ -5,7 +5,7 @@ using Spotify.Model;
 
 namespace Spotify.Repository;
 
-class PlaylistADO
+class SongPlaylistADO
 {
    
     public static void Insert(DatabaseConnection dbConn,SongPlaylist songPlaylist)    // El mètode ha de passar a ser static
