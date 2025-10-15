@@ -17,7 +17,7 @@ public static class UserEndpoints
         // GET /user/{id}
         app.MapGet("/user/{id}", (Guid id) =>
         {
-            var user = UserADO.GetById(dbConn, id);
+            User user = UserADO.GetById(dbConn, id);
             return user is not null
                 ? Results.Ok(user)
                 : Results.NotFound(new { message = $"User with Id {id} not found." });

@@ -16,13 +16,13 @@ public static class PlaylistEndpoints
         });
 
         // GET Playlists by id
-        app.MapGet("/playlists/{id}", (Guid id) =>
+        app.MapGet("/playlists/{Id}", (Guid Id) =>
         {
-            playlist? playlist = PlaylistsADO.GetById(dbConn, id);
+            Playlist playlist = PlaylistADO.GetById(dbConn, Id);
 
             return playlist is not null
                 ? Results.Ok(playlist)
-                : Results.NotFound(new { message = $"Playlist with Id {id} not found." });
+                : Results.NotFound(new { message = $"Playlist with Id {Id} not found." });
         });
 
         // POST /playlists
@@ -63,30 +63,8 @@ public static class PlaylistEndpoints
 
         // DELETE /playlists/{id}
         app.MapDelete("/playlists/{id}", (Guid id) => PlaylistADO.Delete(dbConn, id) ? Results.NoContent() : Results.NotFound());
-
-        // POST  /playlists/{id}/upload
-
-        app.MapPost("/playlists/{id}/upload", async (Guid id, IFormFile image) =>
-        {
-            if (image == null || image.Length == 0)
-                return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
-
-           
-            Playlist? product = ProductADO.GetById(dbConn, id);
-            if (product is null)
-                return Results.NotFound(new { message = $"Producte amb Id {id} no trobat." });
-
-            string filePath = await SaveImage(id,image);            
-
-            product.ImagePath = filePath;
-            ProductADO.Update(dbConn, product);
-
-            return Results.Ok(new { message = "Imatge pujada correctament.", path = filePath });
-        }).DisableAntiforgery();
     }
-
-    
 }
 
 // DTO pel request
-public record ProductRequest(string Code, string Name, decimal Price);
+public record PlaylistRequest(Guid Id, string Name, Guid User_Id);

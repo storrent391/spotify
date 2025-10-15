@@ -1,13 +1,7 @@
 using Microsoft.Data.SqlClient;
-using static System.Console;
 using Spotify.Model;
 using Spotify.Services;
-using System.Reflection.Metadata.Ecma335;
-using System.Net.Http.Headers;
-// using System.ComponentModel.DataAnnotations.Schema;
-// using System.Net.Sockets;
-// using System.Data.Common;
-// using System.Reflection.Metadata.Ecma335;
+
 
 namespace Spotify.Repository;
 
@@ -17,12 +11,12 @@ class SongADO
     {
         dbConn.Open();
 
-        string sql = @"INSERT INTO Song (ID, Name)
+        string sql = @"INSERT INTO Songs (ID, Name)
                         VALUES (@ID, @Name)";
 
-        using SqlCommand cmd = new SqlCommand(sql, dbConn.slqConnection);
-        cmd.Parameters.AddWithValue("@ID", Id);
-        cmd.Parameters.AddWithValue("@Name", Name);
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@ID", song.Id);
+        cmd.Parameters.AddWithValue("@Name", song.Name);
 
         int rows = cmd.ExecuteNonQuery();
         Console.WriteLine($"{rows} fila inserida.");
@@ -34,9 +28,9 @@ class SongADO
         List<Song> songs = new();
 
         dbConn.Open();
-        string sql = "SELECT Id, Name FROM Song";
+        string sql = "SELECT Id, Name FROM Songs";
 
-        using SqlCommand cmd = SqlCommand(sql, dbConn.SqlConnectino);
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
@@ -44,7 +38,7 @@ class SongADO
             songs.Add(new Song
             {
                 Id = reader.GetGuid(0),
-                NamedArgumentsEncoder = reader.GetString(1),
+                Name = reader.GetString(1),
             });
         }
         dbConn.Close();
@@ -54,15 +48,17 @@ class SongADO
     public static Song? GetById(DatabaseConnection dbConn, Guid Id)
     {
         dbConn.Open();
-        string sql = "SELECT Id, Name FROM Song WHERE Id = @Id";
+        string sql = "SELECT Id, Name FROM Songs WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", Id);
 
         using SqlDataReader reader = cmd.ExecuteReader();
+        Song? song = null;
+
         if (reader.Read())
         {
-            SongADO = new Song
+            song = new Song
             {
                 Id = reader.GetGuid(0),
                 Name = reader.GetString(1),
@@ -77,11 +73,11 @@ class SongADO
     {
         dbConn.Open();
 
-        string sql = @"UPDATE Song 
+        string sql = @"UPDATE Songs 
                         SET Id = @Id,
                         Name = @Name
                         WHERE Id = @Id";
-        using SqlCommand cmd = new SqlCommand(sql, dbConn.slqConnectoin);
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", song.Id);
         cmd.Parameters.AddWithValue("@Name", song.Name);
 
@@ -97,9 +93,9 @@ class SongADO
     {
         dbConn.Open();
 
-        string sql = @"DELETE FROM Song WHERE Id = @Id";
+        string sql = @"DELETE FROM Songs WHERE Id = @Id";
 
-        using SqlCommand cmd = new SqlCommand(sql, dbConn.slqConnection);
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", Id);
 
         int rows = cmd.ExecuteNonQuery();

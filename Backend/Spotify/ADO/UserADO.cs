@@ -72,7 +72,7 @@ public class UserADO
         return user;
     }
 
-    public static void Update(DatabaseConnection dbConn, User product)
+    public static void Update(DatabaseConnection dbConn, User user)
     {
         dbConn.Open();
 
@@ -83,10 +83,10 @@ public class UserADO
                        WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", product.Id);
-        cmd.Parameters.AddWithValue("@Name", product.Name);
-        cmd.Parameters.AddWithValue("@Password", product.Password);
-        cmd.Parameters.AddWithValue("@Salt", product.Salt);
+        cmd.Parameters.AddWithValue("@Id", user.Id);
+        cmd.Parameters.AddWithValue("@Name", user.Name);
+        cmd.Parameters.AddWithValue("@Password", user.Password);
+        cmd.Parameters.AddWithValue("@Salt", user.Salt);
 
         cmd.ExecuteNonQuery();
         dbConn.Close();

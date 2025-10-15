@@ -8,7 +8,7 @@ namespace Spotify.Repository;
 class SongPlaylistADO
 {
    
-    public static void Insert(DatabaseConnection dbConn,SongPlaylist songPlaylist)    // El mètode ha de passar a ser static
+    public static void Insert(DatabaseConnection dbConn, SongPlaylist songPlaylist)    // El mètode ha de passar a ser static
     {
 
         dbConn.Open();
@@ -46,48 +46,48 @@ class SongPlaylistADO
         List<SongPlaylist> songPlaylist = new();
 
         dbConn.Open();
-        string sql = "SELECT Id, Song_Id,Playlist_Id FROM SongPlaylist";
+        string sql = "SELECT Id, Song_Id, Playlist_Id FROM SongPlaylist";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
-            playlist.Add(new SongPlaylist
+            songPlaylist.Add(new SongPlaylist
             {
                 Id = reader.GetGuid(0),
-                Song_Id = reader.GetString(2),
-                Playlist_Id = reader.GetGuid(3)
+                Song_Id = reader.GetGuid(1),
+                Playlist_Id = reader.GetGuid(2)
             });
         }
 
         dbConn.Close();
-        return playlist;
+        return songPlaylist;
     }
 
-    public static Playlist? GetById(DatabaseConnection dbConn, Guid id)
+    public static SongPlaylist? GetById(DatabaseConnection dbConn, Guid Id)
     {
         dbConn.Open();
-        string sql = "SELECT Id, Song_Id, Playlist_Id FROM Playlist WHERE Id = @Id";
+        string sql = "SELECT Id, Song_Id, Playlist_Id FROM SongPlaylist WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", id);
+        cmd.Parameters.AddWithValue("@Id", Id);
 
         using SqlDataReader reader = cmd.ExecuteReader();
-        Playlist? playlist = null;    // Si no inicialitzem la variable => no existeix en el return!
+        SongPlaylist? songPlaylist = null;    
 
         if (reader.Read())
         {
-            playlist = new Playlist
+            songPlaylist = new SongPlaylist
             {
                 Id = reader.GetGuid(0),
-                Song_Id = reader.GetString(2),
-                Playlist_Id = reader.GetDecimal(3)
+                Song_Id = reader.GetGuid(1),
+                Playlist_Id = reader.GetGuid(2)
             };
         }
 
         dbConn.Close();
-        return playlist;
+        return songPlaylist;
     }
 
     public static bool Delete(DatabaseConnection dbConn, Guid id)
