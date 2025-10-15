@@ -1,5 +1,6 @@
 using Spotify.Services;
 using Spotify.Repository;
+using Spotify.Model;
 namespace Spotify.Endpoints;
 
 public static class UserEndpoints
@@ -25,7 +26,7 @@ public static class UserEndpoints
         // POST /user
         app.MapPost("/user", (UserRequest req) =>
         {
-            var user = new UserADO
+            var user = new User
             {
                 Id = Guid.NewGuid(),
                 Name = req.Name,
@@ -45,6 +46,7 @@ public static class UserEndpoints
                 return Results.NotFound();
 
             existing.Name = req.Name;
+            existing.Password = req.Password;
             existing.Salt = req.Salt;
 
             UserADO.Update(dbConn, existing);
@@ -60,4 +62,4 @@ public static class UserEndpoints
     }
 }
 
-public record UserRequest(Guid FamilyId, string Code, string Name, decimal Price, decimal Discount);
+public record UserRequest(Guid Id,string Name, string Password, string Salt);

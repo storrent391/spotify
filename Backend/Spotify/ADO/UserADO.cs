@@ -55,11 +55,11 @@ public class UserADO
         cmd.Parameters.AddWithValue("@Id", id);
 
         using SqlDataReader reader = cmd.ExecuteReader();
-        User? product = null;
+        User? user = null;
 
         if (reader.Read())
         {
-            user = new User
+                user = new User
             {
                 Id = reader.GetGuid(0),
                 Name = reader.GetString(1),
@@ -69,7 +69,7 @@ public class UserADO
         }
 
         dbConn.Close();
-        return product;
+        return user;
     }
 
     public static void Update(DatabaseConnection dbConn, User product)
