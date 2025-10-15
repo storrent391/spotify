@@ -19,7 +19,7 @@ class PlaylistADO
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", playlist.Id);
         cmd.Parameters.AddWithValue("@Name", playlist.Name);
-        cmd.Parameters.AddWithValue("@User_Id", playlist.Price);
+        cmd.Parameters.AddWithValue("@User_Id", playlist.User_Id);
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
@@ -53,11 +53,11 @@ class PlaylistADO
 
         while (reader.Read())
         {
-            playlist.Add(new Product
+            playlist.Add(new Playlist
             {
                 Id = reader.GetGuid(0),
-                Name = reader.GetString(2),
-                User_Id = reader.GetDecimal(3)
+                Name = reader.GetString(1),
+                User_Id = reader.GetGuid(2)
             });
         }
 
@@ -65,13 +65,13 @@ class PlaylistADO
         return playlist;
     }
 
-    public static Playlist? GetById(DatabaseConnection dbConn, Guid id)
+    public static Playlist? GetById(DatabaseConnection dbConn, Guid Id)
     {
         dbConn.Open();
         string sql = "SELECT Id, Name, User_Id FROM Playlist WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", id);
+        cmd.Parameters.AddWithValue("@Id", Id);
 
         using SqlDataReader reader = cmd.ExecuteReader();
         Playlist? playlist = null;    // Si no inicialitzem la variable => no existeix en el return!
@@ -90,14 +90,14 @@ class PlaylistADO
         return playlist;
     }
 
-    public static bool Delete(DatabaseConnection dbConn, Guid id)
+    public static bool Delete(DatabaseConnection dbConn, Guid Id)
     {
         dbConn.Open();
 
         string sql = @"DELETE FROM Playlist WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", id);
+        cmd.Parameters.AddWithValue("@Id", Id);
 
         int rows = cmd.ExecuteNonQuery();
 

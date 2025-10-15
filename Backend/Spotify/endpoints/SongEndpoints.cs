@@ -1,33 +1,37 @@
 using Spotify.Repository;
 using Spotify.Model;
 using Spotify.Services;
-using System.Security.Cryptography.X509Certificates;
-using System.IO.Pipelines;
-using System.Data.Common;
+using System.Reflection.Metadata.Ecma335;
+
 
 namespace Spotify.Endpoints;
 
-public static class Endpoints
+public static class SongEndpoints
 {
     public static void MapProductEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
-        app.MapPut("/Songs/{Id}", () =>
+        app.MapPost("/Songs/{Id}", (SongRequest req) =>
         {
-            Song song = SongADO.Insert(dbConn, Id, Name);
-            return song is not null
-            ? Result.NotFound(new { message = $"Song with Id {Id} alredy exist" })
-            : Result.Ok(song);
+            Song song = new Song
+            {
+                Id = Guid.NewGuid(),
+                Name = req.Name,
+            };
+
+            SongADO.Insert(dbConn, song);
+
+            return Results.Created($"/Songs/{song.Id}", song);
         });
 
         app.MapGet("/Songs", () =>
         {
             List<Song> songs = SongADO.GetAll(dbConn);
-            return Request.Ok(songs);
+            return Results.Ok(songs);
         });
 
-        app.MapGet("/Songs/{Id}", () =>
+        app.MapGet("/Songs/{Id}", (Guid Id) =>
         {
-            Song song = SongADO.GetById(dbConn, Id, Name);
+            Song song = SongADO.GetById(dbConn, Id);
 
             return song is not null
             ? Results.Ok(song)
@@ -37,3 +41,4 @@ public static class Endpoints
     }
 }
 
+public record SongRequest(Guid Id, string Name);
