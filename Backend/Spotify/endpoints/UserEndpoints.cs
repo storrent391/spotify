@@ -10,7 +10,7 @@ public static class UserEndpoints
         // GET /users
         app.MapGet("/users", () =>
         {
-            var users = UserADO.GetAll(dbConn);
+            List<User> users = UserADO.GetAll(dbConn);
             return Results.Ok(users);
         });
 
@@ -26,7 +26,7 @@ public static class UserEndpoints
         // POST /user
         app.MapPost("/user", (UserRequest req) =>
         {
-            var user = new User
+            User user = new User
             {
                 Id = Guid.NewGuid(),
                 Name = req.Name,
@@ -35,7 +35,7 @@ public static class UserEndpoints
             };
 
             UserADO.Insert(dbConn, user);
-            return Results.Created($"//{user.Id}", user);
+            return Results.Created($"/user/{user.Id}", user);
         });
 
         // PUT /user/{id}
@@ -54,11 +54,7 @@ public static class UserEndpoints
         });
 
         // DELETE /user/{id}
-        app.MapDelete("/user/{id}", (Guid id) =>
-        {
-            var deleted = UserADO.Delete(dbConn, id);
-            return deleted ? Results.NoContent() : Results.NotFound();
-        });
+        app.MapDelete("/user/{id}", (Guid Id) => UserADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
     }
 }
 
