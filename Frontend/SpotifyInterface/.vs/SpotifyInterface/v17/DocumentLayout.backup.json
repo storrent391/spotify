@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\marcm\\Desktop\\spotify\\Frontend\\SpotifyInterface\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{640EB533-7BD1-4E6F-8DBE-D31F613FAB6A}|SpotifyInterface\\SpotifyInterface.csproj|c:\\users\\marcm\\desktop\\spotify\\frontend\\spotifyinterface\\spotifyinterface\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{640EB533-7BD1-4E6F-8DBE-D31F613FAB6A}|SpotifyInterface\\SpotifyInterface.csproj|solutionrelative:spotifyinterface\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{640EB533-7BD1-4E6F-8DBE-D31F613FAB6A}|SpotifyInterface\\SpotifyInterface.csproj|c:\\users\\marcm\\desktop\\spotify\\frontend\\spotifyinterface\\spotifyinterface\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{640EB533-7BD1-4E6F-8DBE-D31F613FAB6A}|SpotifyInterface\\SpotifyInterface.csproj|solutionrelative:spotifyinterface\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 572,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\marcm\\Desktop\\spotify\\Frontend\\SpotifyInterface\\SpotifyInterface\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "SpotifyInterface\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\marcm\\Desktop\\spotify\\Frontend\\SpotifyInterface\\SpotifyInterface\\MainWindow.xaml",
+              "RelativeToolTip": "SpotifyInterface\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-15T15:55:51.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\marcm\\Desktop\\spotify\\Frontend\\SpotifyInterface\\SpotifyInterface\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SpotifyInterface\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\marcm\\Desktop\\spotify\\Frontend\\SpotifyInterface\\SpotifyInterface\\MainWindow.xaml.cs",
+              "RelativeToolTip": "SpotifyInterface\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T15:55:48.127Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

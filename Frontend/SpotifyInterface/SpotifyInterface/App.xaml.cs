@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace AdminInterface
+namespace SpotifyInterface
 {
     /// <summary>
     /// Interaction logic for App.xaml
