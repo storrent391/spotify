@@ -78,7 +78,7 @@ public class UserADO
 
         string sql = @"UPDATE Users
                        SET Name = @Name,
-                           Passowrd = @Password,
+                           Password = @Password,
                            Salt = @Salt
                        WHERE Id = @Id";
 
@@ -96,7 +96,7 @@ public class UserADO
     {
         dbConn.Open();
 
-        string sql = @"DELETE FROM Products WHERE Id = @Id";
+        string sql = @"DELETE FROM Users WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", id);
