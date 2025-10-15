@@ -20,5 +20,11 @@ namespace SpotifyInterface
         {
             InitializeComponent();
         }
+
+        private void AddUser_Click(object sender, RoutedEventArgs e)
+        {
+            TXTBNom.Text = "ABC" + TXTBNom.Text;
+
+        }
     }
 }

@@ -16,7 +16,13 @@
                 <MenuItem Header="_Exit" />
             </MenuItem>
         </Menu>
-        <TextBox AcceptsReturn="True" />
+        <Label x:Name="lblNom" Content="Nom:" Width="64" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+        <TextBox x:Name="TXTBNom" TextWrapping="Wrap" Text=" " Width="100" Height="35
+                 " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click">
+           
+        </Button>
     </DockPanel>
 
 
