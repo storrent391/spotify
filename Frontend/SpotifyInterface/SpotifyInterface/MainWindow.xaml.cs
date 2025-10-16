@@ -19,6 +19,7 @@ namespace SpotifyInterface
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         private void AddUser_Click(object sender, RoutedEventArgs e)

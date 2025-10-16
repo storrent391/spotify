@@ -16,15 +16,28 @@
                 <MenuItem Header="_Exit" />
             </MenuItem>
         </Menu>
-        <Label x:Name="lblNom" Content="Nom:" Width="64" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Grid>
+            <Label x:Name="Titol" Content="CREAR USUARIS" Width="135" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,17,0,0"/>
 
-        <TextBox x:Name="TXTBNom" TextWrapping="Wrap" Text=" " Width="100" Height="35
-                 " HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
-                HorizontalAlignment="Left" Margin="5,0,0,0"> </Button>
-        
+            <Label x:Name="lblID" Content="ID:" Width="45" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,56,0,0"/>
+            <TextBox x:Name="TXTID" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,57,0,325"/>
+            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
+        HorizontalAlignment="Left" Margin="177,57,0,0"></Button>
+            <Label x:Name="lblName" Content="Nom:" Width="45" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,108,0,0"/>
+            <TextBox x:Name="TXTNom" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,108,0,274"/>
+            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
+HorizontalAlignment="Left" Margin="177,110,0,0"></Button>
 
+            <Label x:Name="lblPassword" Content="Password:" Width="66" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,162,0,0"/>
+            <TextBox x:Name="TXTPassword" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,163,0,219"/>
+            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
+HorizontalAlignment="Left" Margin="177,164,0,0"></Button>
+
+            <Label x:Name="lblSalt" Content="Password:" Width="65" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,208,0,0"/>
+            <TextBox x:Name="TXTSalt" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,208,0,174"/>
+            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
+HorizontalAlignment="Left" Margin="177,209,0,0"></Button>
+
+        </Grid>
     </DockPanel>
-
-
 </Window>

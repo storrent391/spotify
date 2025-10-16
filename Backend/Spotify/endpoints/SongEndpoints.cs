@@ -8,7 +8,7 @@ namespace Spotify.Endpoints;
 
 public static class SongEndpoints
 {
-    public static void MapProductEndpoints(this WebApplication app, DatabaseConnection dbConn)
+    public static void MapSongEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
         app.MapPost("/Songs/{Id}", (SongRequest req) =>
         {
