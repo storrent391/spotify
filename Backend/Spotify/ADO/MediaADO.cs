@@ -45,7 +45,29 @@ namespace Spotify.Repository
             dbConn.Close();
             return list;
         }
+        public static Song? GetById(DatabaseConnection dbConn, Guid Id)
+    {
+        dbConn.Open();
+        string sql = "SELECT Id, Name FROM Songs WHERE Id = @Id";
 
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", Id);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+        Song? song = null;
+
+        if (reader.Read())
+        {
+            song = new Song
+            {
+                Id = reader.GetGuid(0),
+                Name = reader.GetString(1),
+            };
+        }
+
+        dbConn.Close();
+        return song;
+    }
         public static List<Media> GetBySongId(DatabaseConnection dbConn, Guid Song_Id)
         {
             List<Media> list = new();
@@ -71,31 +93,31 @@ namespace Spotify.Repository
             return list;
         }
 
-        public static Media? GetById(DatabaseConnection dbConn, Guid id)
-        {
-            dbConn.Open();
+        // public static Media? GetById(DatabaseConnection dbConn, Guid id)
+        // {
+        //     dbConn.Open();
 
-            string sql = "SELECT ID, URL, Song_ID FROM Media WHERE ID = @Id";
-            using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-            cmd.Parameters.AddWithValue("@Id", id);
+        //     string sql = "SELECT ID, URL, Song_ID FROM Media WHERE ID = @Id";
+        //     using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        //     cmd.Parameters.AddWithValue("@Id", id);
 
-            using SqlDataReader reader = cmd.ExecuteReader();
-            Media? media = null;
+        //     using SqlDataReader reader = cmd.ExecuteReader();
+        //     Media? media = null;
 
-            if (reader.Read())
-            {
-                media = new Media
-                {
-                    Id = reader.GetGuid(0),
-                    Song_Id = reader.GetGuid(1),
-                    Url = reader.GetString(2),
+        //     if (reader.Read())
+        //     {
+        //         media = new Media
+        //         {
+        //             Id = reader.GetGuid(0),
+        //             Song_Id = reader.GetGuid(1),
+        //             Url = reader.GetString(2),
 
-                };
-            }
+        //         };
+        //     }
 
-            dbConn.Close();
-            return media;
-        }
+        //     dbConn.Close();
+        //     return media;
+        // }
 
         public static void Update(DatabaseConnection dbConn, Media media)
         {
