@@ -6,7 +6,7 @@ namespace Spotify.Endpoints;
 
 public static class PlaylistEndpoints
 {
-    public static void MapProductEndpoints(this WebApplication app, DatabaseConnection dbConn)
+    public static void MapPlaylistEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
         // GET /playlists
         app.MapGet("/playlists", () =>
