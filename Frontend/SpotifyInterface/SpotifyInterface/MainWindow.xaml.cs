@@ -1,31 +1,44 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using SpotifyInterface.Models;
+using SpotifyInterface.Services;
 
 namespace SpotifyInterface
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly UserService _userService;
+
         public MainWindow()
         {
             InitializeComponent();
-
+            _userService = new UserService();
         }
 
-        private void AddUser_Click(object sender, RoutedEventArgs e)
+        // Buscar un usuari per ID (sense comprovacions)
+        private async void BuscarUser_Click(object sender, RoutedEventArgs e)
         {
-            TXTBNom.Text = "ABC" + TXTBNom.Text;
+            Guid userId = Guid.Parse(TXTID.Text);
 
+            User user = await _userService.GetByIdAsync(userId);
+
+            TXTID.Text = user.Id.ToString();
+            TXTNom.Text = user.Name;
+            TXTPassword.Text = user.Password;
+            TXTSalt.Text = user.Salt;
+        }
+
+        // Obtenir tots els usuaris (sense comprovacions)
+        private async void GetAllUsers_Click(object sender, RoutedEventArgs e)
+        {
+            List<User> users = await _userService.GetAllAsync();
+
+            ListaUsers.Items.Clear();
+
+            foreach (User user in users)
+            {
+                string userInfo = $"ID: {user.Id} | Nom: {user.Name} | Password: {user.Password} | Salt: {user.Salt}";
+                ListaUsers.Items.Add(userInfo);
+            }
         }
     }
 }
