@@ -19,5 +19,6 @@ WebApplication app = builder.Build();
 // Registrar endpoints
 app.MapUserEndpoints(dbConn);
 app.MapSongEndpoints(dbConn);
+app.MapPlaylistEndpoints(dbConn);
 
 app.Run("http://localhost:5000");
