@@ -1,6 +1,8 @@
 using Spotify.Repository;
 using Spotify.Model;
 using Spotify.Services;
+using Microsoft.AspNetCore.Mvc;
+
 //using System.Reflection.Metadata.Ecma335;
 
 
@@ -40,6 +42,37 @@ public static class SongEndpoints
         
         app.MapDelete("/Songs/{id}", (Guid Id) => SongADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
 
+        MediaService service = new MediaService();
+
+        app.MapPost("/songs/{id}/upload", async (Guid id, [FromForm] List<IFormFile> files) =>
+
+        {
+            if (files == null || files.Count == 0)
+                return Results.BadRequest("No s'ha rebut cap fitxer.");
+
+            Song song = SongADO.GetById(dbConn, id);
+            if (song == null)
+                return Results.NotFound($"No existeix cap cançó amb Id {id}");
+
+            List<Media> addedMedia = await service.ProcessAndInsertUploadedMediaRange(dbConn, id, files);
+
+            if (addedMedia.Count == 0)
+                return Results.BadRequest("No s'ha pogut processar cap fitxer.");
+
+            return Results.Created($"/Songs/{id}/upload", addedMedia);
+        })
+        .Accepts<IFormFile>("multipart/form-data")
+        .DisableAntiforgery();
+
+        
+        app.MapGet("/media/{id:guid}", (Guid id) =>
+        {
+            Media? media = service.GetMediaById(dbConn, id);
+            if (media == null)
+                return Results.NotFound("Fitxer no trobat.");
+
+            return Results.Ok(media);
+        });
     }
 }
 
