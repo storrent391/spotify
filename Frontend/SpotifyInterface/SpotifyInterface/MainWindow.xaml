@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpotifyInterface"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -20,23 +20,25 @@
             <Label x:Name="Titol" Content="CREAR USUARIS" Width="135" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,17,0,0"/>
 
             <Label x:Name="lblID" Content="ID:" Width="45" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,56,0,0"/>
-            <TextBox x:Name="TXTID" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,57,0,325"/>
-            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
-        HorizontalAlignment="Left" Margin="177,57,0,0"></Button>
+            <TextBox x:Name="TXTID" TextWrapping="Wrap" Text="" Width="150" Height="34" HorizontalAlignment="Left" Margin="109,57,0,0" VerticalAlignment="Top"/>
+            <Button Content="Buscar" Width="60" Height="33" Click="BuscarUser_Click" VerticalAlignment="Top" 
+                    HorizontalAlignment="Left" Margin="270,57,0,0"/>
+
             <Label x:Name="lblName" Content="Nom:" Width="45" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,108,0,0"/>
-            <TextBox x:Name="TXTNom" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,108,0,274"/>
-            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
-HorizontalAlignment="Left" Margin="177,110,0,0"></Button>
+            <TextBox x:Name="TXTNom" TextWrapping="Wrap" Text="" Width="150" Height="34" HorizontalAlignment="Left" Margin="109,108,0,0" VerticalAlignment="Top"/>
 
             <Label x:Name="lblPassword" Content="Password:" Width="66" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,162,0,0"/>
-            <TextBox x:Name="TXTPassword" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,163,0,219"/>
-            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
-HorizontalAlignment="Left" Margin="177,164,0,0"></Button>
+            <TextBox x:Name="TXTPassword" TextWrapping="Wrap" Text="" Width="150" Height="34" HorizontalAlignment="Left" Margin="109,163,0,0" VerticalAlignment="Top"/>
 
-            <Label x:Name="lblSalt" Content="Password:" Width="65" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,208,0,0"/>
-            <TextBox x:Name="TXTSalt" TextWrapping="Wrap" Text="TextBox" Width="52" Height="34" HorizontalAlignment="Left" Margin="109,208,0,174"/>
-            <Button Content="ADD" Width="36" Height="33" Click="AddUser_Click" VerticalAlignment="Top" 
-HorizontalAlignment="Left" Margin="177,209,0,0"></Button>
+            <Label x:Name="lblSalt" Content="Salt:" Width="65" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,208,0,0"/>
+            <TextBox x:Name="TXTSalt" TextWrapping="Wrap" Text="" Width="150" Height="34" HorizontalAlignment="Left" Margin="109,208,0,0" VerticalAlignment="Top"/>
+            
+            
+            <Button Content="Obtenir Tots" Width="100" Height="33" Click="GetAllUsers_Click" VerticalAlignment="Top" 
+                    HorizontalAlignment="Left" Margin="26,260,0,0"/>
+
+            <Label x:Name="lblLlista" Content="LLISTA D'USUARIS:" Width="150" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,310,0,0"/>
+            <ListBox x:Name="ListaUsers" Width="740" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,350,0,0"/>
 
         </Grid>
     </DockPanel>
