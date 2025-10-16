@@ -11,16 +11,14 @@ class SongADO
     {
         dbConn.Open();
 
-        string sql = @"INSERT INTO Songs (ID, Name)
-                        VALUES (@ID, @Name)";
+        string sql = @"INSERT INTO Songs (Id, Name)
+                        VALUES (@Id, @Name)";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@ID", song.Id);
         cmd.Parameters.AddWithValue("@Name", song.Name);
 
-        int rows = cmd.ExecuteNonQuery();
-        Console.WriteLine($"{rows} fila inserida.");
-
+        cmd.ExecuteNonQuery();
         dbConn.Close();
     }
     public static List<Song> GetAll(DatabaseConnection dbConn)

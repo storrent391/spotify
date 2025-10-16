@@ -1,7 +1,7 @@
 using Spotify.Repository;
 using Spotify.Model;
 using Spotify.Services;
-using System.Reflection.Metadata.Ecma335;
+//using System.Reflection.Metadata.Ecma335;
 
 
 namespace Spotify.Endpoints;
@@ -10,7 +10,7 @@ public static class SongEndpoints
 {
     public static void MapSongEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
-        app.MapPost("/Songs/{Id}", (SongRequest req) =>
+        app.MapPost("/Songs", (SongRequest req) =>
         {
             Song song = new Song
             {
@@ -37,6 +37,8 @@ public static class SongEndpoints
             ? Results.Ok(song)
             : Results.NotFound(new { message = $"Song with Id {Id} not found" });
         });
+        
+        app.MapDelete("/Songs/{id}", (Guid Id) => SongADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
 
     }
 }
