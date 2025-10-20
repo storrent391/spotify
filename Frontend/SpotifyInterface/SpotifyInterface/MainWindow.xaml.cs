@@ -14,7 +14,7 @@ namespace SpotifyInterface
             _userService = new UserService();
         }
 
-        // Buscar un usuari per ID (sense comprovacions)
+        // Buscar ID 
         private async void BuscarUser_Click(object sender, RoutedEventArgs e)
         {
             Guid userId = Guid.Parse(TXTID.Text);
@@ -27,7 +27,7 @@ namespace SpotifyInterface
             TXTSalt.Text = user.Salt;
         }
 
-        // Obtenir tots els usuaris (sense comprovacions)
+        // Obtenir usaris
         private async void GetAllUsers_Click(object sender, RoutedEventArgs e)
         {
             List<User> users = await _userService.GetAllAsync();

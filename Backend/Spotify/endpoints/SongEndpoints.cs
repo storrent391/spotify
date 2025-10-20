@@ -1,6 +1,9 @@
 using Spotify.Repository;
 using Spotify.Model;
 using Spotify.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+
 //using System.Reflection.Metadata.Ecma335;
 
 
@@ -40,7 +43,49 @@ public static class SongEndpoints
         
         app.MapDelete("/Songs/{id}", (Guid Id) => SongADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
 
+         app.MapPost("/Song/{id}/upload", async (Guid id, IFormFile image) =>
+        {
+            if (image == null || image.Length == 0)
+                return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
+
+           
+            Song? song = SongADO.GetById(dbConn, id);
+            if (song is null)
+                return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
+
+            string filePath = await SaveImage(id,image);
+            Media media = new Media
+            {
+                Id = Guid.NewGuid(),
+                Song_Id = id,
+                Url = filePath,
+            };
+            
+            MediaADO.Insert(dbConn, media);
+
+            return Results.Ok(new { message = "Imatge pujada correctament.", path = filePath });
+        }).DisableAntiforgery();
+    }
+
+    public static async Task<string> SaveImage(Guid id, IFormFile image)
+    {
+        string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+
+        if (!Directory.Exists(uploadsFolder))
+            Directory.CreateDirectory(uploadsFolder);
+
+        string fileName = $"{id}_{Path.GetFileName(image.FileName)}";
+        string filePath = Path.Combine(uploadsFolder, fileName);
+
+        using (FileStream stream = new FileStream(filePath, FileMode.Create))
+        {
+            await image.CopyToAsync(stream);
+        }
+
+        return filePath;
     }
 }
+    
+
 
 public record SongRequest(Guid Id, string Name);
