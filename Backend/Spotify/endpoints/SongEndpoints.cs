@@ -60,7 +60,8 @@ public static class SongEndpoints
                 Song_Id = id,
                 Url = filePath,
             };
-            
+            MediaService mediaService = new();
+            Media? uploadedMedia = await mediaService.ProcessAndInsertUploadedMedia(dbConn, id, image);
             MediaADO.Insert(dbConn, media);
 
             return Results.Ok(new { message = "Imatge pujada correctament.", path = filePath });
