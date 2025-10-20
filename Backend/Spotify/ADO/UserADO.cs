@@ -1,6 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Spotify.Services;
 using Spotify.Model;
+using Spotify.Encryption;
 namespace Spotify.Repository;
 
 public class UserADO
@@ -9,6 +10,7 @@ public class UserADO
 
     public static void Insert(DatabaseConnection dbConn, User user)
 {
+    PasswordEncryption.ConvertPassword(user);
     dbConn.Open();
     string sql = @"INSERT INTO Users (Id, Name, Password, Salt)
                    VALUES (@Id, @Name, @Password, @Salt)";
@@ -18,6 +20,7 @@ public class UserADO
     cmd.Parameters.AddWithValue("@Password", user.Password);
     cmd.Parameters.AddWithValue("@Salt", user.Salt);
     cmd.ExecuteNonQuery();
+    
     dbConn.Close();
 }
 
