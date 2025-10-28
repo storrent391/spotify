@@ -43,44 +43,49 @@ public static class SongEndpoints
         
         app.MapDelete("/Songs/{id}", (Guid Id) => SongADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
 
-         app.MapPost("/Song/{id}/upload", async (Guid id, IFormFile image) =>
+        app.MapPost("/Song/{id}/upload", async (Guid id, [FromForm] IFormFileCollection images) =>
         {
-            if (image == null || image.Length == 0)
+            Console.WriteLine("hola");
+                if (images == null || images.Count == 0)
                 return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
-
-           
-            Song? song = SongADO.GetById(dbConn, id);
-            if (song is null)
+                Song? song = SongADO.GetById(dbConn, id);
+                if (song is null)
                 return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
+                    
 
-            string filePath = await SaveImage(id,image);
-            Media media = new Media
+            foreach (var image in images)
             {
-                Id = Guid.NewGuid(),
-                Song_Id = id,
-                Url = filePath,
-            };
-            MediaService mediaService = new();
-            Media? uploadedMedia = await mediaService.ProcessAndInsertUploadedMedia(dbConn, id, image);
-            MediaADO.Insert(dbConn, media);
+                string filePath = await SaveImage(id, images);
+                Media media = new Media
+                {
+                    Id = Guid.NewGuid(),
+                    Song_Id = id,
+                    Url = filePath,
+                };
+            }
+            
+            // MediaService mediaService = new();
+            // Media? uploadedMedia = await mediaService.ProcessAndInsertUploadedMedia(dbConn, id, image, filePath);
+            // MediaADO.Insert(dbConn, media);
 
-            return Results.Ok(new { message = "Imatge pujada correctament.", path = filePath });
+            return Results.Ok(new { message = "Imatge pujada correctament."});
         }).DisableAntiforgery();
     }
 
-    public static async Task<string> SaveImage(Guid id, IFormFile image)
+    public static async Task<string> SaveImage(Guid id, [FromForm] IFormFileCollection image)
     {
+        IFormFile[] fromFiles = image.ToArray();
         string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 
         if (!Directory.Exists(uploadsFolder))
             Directory.CreateDirectory(uploadsFolder);
 
-        string fileName = $"{id}_{Path.GetFileName(image.FileName)}";
+        string fileName = $"{id}_{Path.GetFileName(image[0].FileName)}";
         string filePath = Path.Combine(uploadsFolder, fileName);
 
         using (FileStream stream = new FileStream(filePath, FileMode.Create))
         {
-            await image.CopyToAsync(stream);
+            await image[0].CopyToAsync(stream);
         }
 
         return filePath;
