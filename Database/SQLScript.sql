@@ -33,3 +33,18 @@ CREATE TABLE SongPlaylist (
     FOREIGN KEY (Playlist_ID) REFERENCES Playlist(ID),
     CONSTRAINT unique_song_playlist UNIQUE (Song_ID, Playlist_ID)
 );
+
+CREATE TABLE Roles (
+    ID UNIQUEIDENTIFIER PRIMARY KEY,
+    Code NUMBER(1) NOT NULL,
+    Name NVARCHAR(20) NOT NULL,
+    CONSTRAINT unique_code_role UNIQUE (Code)
+);
+
+CREATE TABLE UserRoles (
+    ID UNIQUEIDENTIFIER PRIMARY KEY,
+    Role_Code NUMBER(1) NOT NULL,
+    User_ID UNIQUEIDENTIFIER NOT NULL,
+    FOREIGN KEY (Role_Code) REFERENCES Roles(Code),
+    FOREIGN KEY (User_ID) REFERENCES Users(ID)
+);
