@@ -36,15 +36,29 @@ CREATE TABLE SongPlaylist (
 
 CREATE TABLE Roles (
     ID UNIQUEIDENTIFIER PRIMARY KEY,
-    Code NUMBER(1) NOT NULL,
+    Code NVARCHAR(5) NOT NULL,
     Name NVARCHAR(20) NOT NULL,
     CONSTRAINT unique_code_role UNIQUE (Code)
 );
 
 CREATE TABLE UserRoles (
     ID UNIQUEIDENTIFIER PRIMARY KEY,
-    Role_Code NUMBER(1) NOT NULL,
+    Role_Code NVARCHAR(5) NOT NULL,
     User_ID UNIQUEIDENTIFIER NOT NULL,
     FOREIGN KEY (Role_Code) REFERENCES Roles(Code),
     FOREIGN KEY (User_ID) REFERENCES Users(ID)
 );
+
+CREATE TABLE RolesPermissions (
+    ID UNIQUEIDENTIFIER PRIMARY KEY,
+    Permission_Code NVARCHAR(5),
+    Role_Code NVARCHAR(5),
+    FOREIGN KEY (Permission_Code) REFERENCES Permissions(Code),
+    FOREIGN KEY (Role_Code) REFERENCES Roles(Code)
+);
+
+CREATE TABLE Permissions (
+    ID UNIQUEIDENTIFIER PRIMARY KEY,
+    Code NVARCHAR(5)
+    Name NVARCHAR(30)
+)
