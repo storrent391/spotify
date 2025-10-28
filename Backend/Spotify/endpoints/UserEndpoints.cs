@@ -58,4 +58,4 @@ public static class UserEndpoints
     }
 }
 
-public record UserRequest(Guid Id,string Name, string Password, string Salt);
+public record UserRequest(Guid Id, string Name, string Password, string Salt);

@@ -1,6 +1,6 @@
 namespace Spotify.Model;
 
-public class Playlist
+public class Permission
 {
     public Guid Id { get; set; }
     

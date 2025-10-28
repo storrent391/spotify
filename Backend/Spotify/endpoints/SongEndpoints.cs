@@ -45,47 +45,43 @@ public static class SongEndpoints
 
         app.MapPost("/Song/{id}/upload", async (Guid id, [FromForm] IFormFileCollection images) =>
         {
-            Console.WriteLine("hola");
-                if (images == null || images.Count == 0)
-                return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
-                Song? song = SongADO.GetById(dbConn, id);
-                if (song is null)
-                return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
-                    
-
-            foreach (var image in images)
+                // if (images == null || images.Count == 0)
+                // return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
+                // Song? song = SongADO.GetById(dbConn, id);
+                // if (song is null)
+                // return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
+            
+            for(int i = 0; i < images.Count; i++)
             {
-                string filePath = await SaveImage(id, images);
+                string filePath = await SaveImage(id, images[i]);
                 Media media = new Media
                 {
                     Id = Guid.NewGuid(),
                     Song_Id = id,
                     Url = filePath,
-                };
-            }
-            
-            // MediaService mediaService = new();
-            // Media? uploadedMedia = await mediaService.ProcessAndInsertUploadedMedia(dbConn, id, image, filePath);
-            // MediaADO.Insert(dbConn, media);
+                };    
+                MediaService mediaService = new();
+                Media? uploadedMedia = await mediaService.ProcessAndInsertUploadedMedia(dbConn, id, images[i]);
+                MediaADO.Insert(dbConn, media);
+            }       
 
             return Results.Ok(new { message = "Imatge pujada correctament."});
         }).DisableAntiforgery();
     }
 
-    public static async Task<string> SaveImage(Guid id, [FromForm] IFormFileCollection image)
+    public static async Task<string> SaveImage(Guid id, IFormFile image)
     {
-        IFormFile[] fromFiles = image.ToArray();
         string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 
         if (!Directory.Exists(uploadsFolder))
             Directory.CreateDirectory(uploadsFolder);
 
-        string fileName = $"{id}_{Path.GetFileName(image[0].FileName)}";
+        string fileName = $"{id}_{Path.GetFileName(image.FileName)}";
         string filePath = Path.Combine(uploadsFolder, fileName);
 
         using (FileStream stream = new FileStream(filePath, FileMode.Create))
         {
-            await image[0].CopyToAsync(stream);
+            await image.CopyToAsync(stream);
         }
 
         return filePath;

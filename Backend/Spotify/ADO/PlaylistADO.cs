@@ -46,7 +46,7 @@ class PlaylistADO
         List<Playlist> playlist = new();
 
         dbConn.Open();
-        string sql = "SELECT Id, Name,User_Id FROM Playlist";
+        string sql = "SELECT Id, Name, User_Id FROM Playlist";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
