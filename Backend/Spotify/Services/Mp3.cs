@@ -19,15 +19,13 @@ public class MediaService
 
     public async Task<Media?> ProcessAndInsertUploadedMedia(DatabaseConnection dbConn, Guid songId, IFormFile file)
     {
+
+        String filePath = await SaveImage(songId, file);
         if (file == null || file.Length == 0)
             return null;
 
         try
         {
-            // 1️⃣ Desa el fitxer físicament
-            string filePath = await SaveFile(songId, file);
-
-            // 2️⃣ Llegeix metadades amb TagLib
             var tagFile = TagLib.File.Create(filePath);
 
             Console.WriteLine("=== Metadades del fitxer ===");
@@ -40,7 +38,6 @@ public class MediaService
             Console.WriteLine($"Durada: {tagFile.Properties.Duration}");
             Console.WriteLine("============================");
 
-            // 3️⃣ Desa a la BD
             Media media = new Media
             {
                 Id = Guid.NewGuid(),
@@ -48,7 +45,6 @@ public class MediaService
                 Url = filePath
             };
 
-            MediaADO.Insert(dbConn, media);
             return media;
         }
         catch (Exception ex)
@@ -57,29 +53,35 @@ public class MediaService
             return null;
         }
     }
+    //     public async Task<List<Media>> ProcessAndInsertUploadedMediaRange(DatabaseConnection dbConn, Guid songId, IFormFileCollection files, String filePath)
+    //     {
+    //         var result = new List<Media>();
+    //         List<Task> added = new List<Task>();
 
-    public async Task<List<Media>> ProcessAndInsertUploadedMediaRange(DatabaseConnection dbConn, Guid songId, IEnumerable<IFormFile> files)
+    //         for (int i = 0; files.Count; i++)
+    //         {
+    //             added.Add(Task.Run(() => ProcessAndInsertUploadedMedia(dbConn, songId, files[i], filePath)));
+    //             if (added != null)
+    //                 result.Add(added[i]);
+    //         }
+    //         Task.WaitAll(added.ToArray());
+    //         return result;
+    //     }
+
+
+    private static async Task<string> SaveImage(Guid id, IFormFile image)
     {
-        var result = new List<Media>();
+        string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 
-        foreach (var file in files)
+        if (!Directory.Exists(uploadsFolder))
+            Directory.CreateDirectory(uploadsFolder);
+
+        string fileName = $"{id}_{Path.GetFileName(image.FileName)}";
+        string filePath = Path.Combine(uploadsFolder, fileName);
+
+        using (FileStream stream = new FileStream(filePath, FileMode.Create)) 
         {
-            var added = await ProcessAndInsertUploadedMedia(dbConn, songId, file);
-            if (added != null)
-                result.Add(added);
-        }
-
-        return result;
-    }
-
-    private async Task<string> SaveFile(Guid songId, IFormFile file)
-    {
-        string fileName = $"{songId}_{Path.GetFileName(file.FileName)}";
-        string filePath = Path.Combine(_uploadsFolder, fileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
+            await image.CopyToAsync(stream);
         }
 
         return filePath;
