@@ -1,7 +1,7 @@
 using Spotify.Repository;
 using Spotify.Model;
 using Spotify.Services;
-
+using Spotify.DTO;
 namespace Spotify.Endpoints;
 
 public static class PermissionEndpoints
@@ -14,7 +14,7 @@ public static class PermissionEndpoints
             List<PermissionResponse> permissionResponse = new List<PermissionResponse>();
             foreach(Permission permission in permissions)
             {
-                permissionResponse.Add(permissionResponse.FromPermission(permission));
+                permissionResponse.Add(PermissionResponse.FromPermission(permission));
             }
             return Results.Ok(permissions);
         });

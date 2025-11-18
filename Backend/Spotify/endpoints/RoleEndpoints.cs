@@ -1,6 +1,7 @@
 using Spotify.Repository;
 using Spotify.Model;
 using Spotify.Services;
+using Spotify.DTO;
 
 namespace Spotify.Endpoints;
 
@@ -14,7 +15,7 @@ public static class RoleEndpoints
             List<RoleResponse> roleResponse = new List<RoleResponse>();
             foreach(Role role in roles)
             {
-                roleResponse.Add(roleResponse.FromRole(role));
+                roleResponse.Add(RoleResponse.FromRole(role));
             }
             return Results.Ok(roleResponse);
         });
