@@ -20,7 +20,7 @@ WebApplication app = builder.Build();
 app.MapUserEndpoints(dbConn);
 app.MapSongEndpoints(dbConn);
 app.MapPlaylistEndpoints(dbConn);
-app.MapRolesEndpoints(dbConn);
+app.MapRoleEndpoints(dbConn);
 app.MapPermissionEndpoints(dbConn);
 
 app.MapRoleEndpoints(dbConn);
