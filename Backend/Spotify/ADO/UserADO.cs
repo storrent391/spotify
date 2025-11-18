@@ -2,6 +2,7 @@ using Microsoft.Data.SqlClient;
 using Spotify.Services;
 using Spotify.Model;
 using Spotify.Encryption;
+using Spotify.Repository.Validators;
 namespace Spotify.Repository;
 
 public class UserADO
@@ -10,20 +11,62 @@ public class UserADO
 
     public static void Insert(DatabaseConnection dbConn, User user)
 {
+    
+    UserValidator validator = new UserValidator(dbConn);
+    validator.ValidateUserDoesNotExist(user.Name);
+
+    
     PasswordEncryption.ConvertPassword(user);
+
     dbConn.Open();
+
     string sql = @"INSERT INTO Users (Id, Name, Password, Salt)
                    VALUES (@Id, @Name, @Password, @Salt)";
+
     using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
     cmd.Parameters.AddWithValue("@Id", user.Id);
     cmd.Parameters.AddWithValue("@Name", user.Name);
     cmd.Parameters.AddWithValue("@Password", user.Password);
     cmd.Parameters.AddWithValue("@Salt", user.Salt);
+
     cmd.ExecuteNonQuery();
-    
+
     dbConn.Close();
 }
 
+
+    public static User? GetByName(DatabaseConnection dbConn, string name)
+    {
+        dbConn.Open();
+
+        string sql = @"
+            SELECT Id, Name, Password, Salt
+            FROM Users
+            WHERE Name = @Name
+        ";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Name", name);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+
+        User? user = null;
+
+        if (reader.Read())
+        {
+            user = new User
+            {
+                Id = reader.GetGuid(0),
+                Name = reader.GetString(1),
+                Password = reader.GetString(2),
+                Salt = reader.GetString(3)
+            };
+        }
+
+        dbConn.Close();
+
+        return user;
+    }
 
     public static List<User> GetAll(DatabaseConnection dbConn)
     {

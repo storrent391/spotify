@@ -1,6 +1,7 @@
-using Spotify.ADO;
+using Spotify.Repository;
+using Spotify.Services;
 
-namespace Spotify.Validators
+namespace Spotify.Repository.Validators
 {
     public class UserValidator
     {
