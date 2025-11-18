@@ -19,7 +19,7 @@ class PermissionADO
 
         while (reader.Read())
         {
-            permissions.Add(new Role
+            permissions.Add(new Permission
             {
                 Id = reader.GetGuid(0),
                 Code = reader.GetString(1),
