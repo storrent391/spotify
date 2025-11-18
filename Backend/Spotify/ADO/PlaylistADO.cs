@@ -10,7 +10,6 @@ class PlaylistADO
    
     public static void Insert(DatabaseConnection dbConn,Playlist playlist)    // El mètode ha de passar a ser static
     {
-
         dbConn.Open();
 
         string sql = @"INSERT INTO Playlist (Id, Name, User_Id)
@@ -105,5 +104,4 @@ class PlaylistADO
 
         return rows > 0;
     }
-
 }
