@@ -21,5 +21,7 @@ app.MapUserEndpoints(dbConn);
 app.MapSongEndpoints(dbConn);
 app.MapPlaylistEndpoints(dbConn);
 app.MapRolesEndpoints(dbConn);
+app.MapPermissionEndpoints(dbConn);
+
 
 app.Run("http://localhost:5000");
