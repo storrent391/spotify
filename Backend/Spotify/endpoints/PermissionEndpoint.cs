@@ -11,6 +11,11 @@ public static class PermissionEndpoints
         app.MapGet("/Permissions", () =>
         {
             List<Permission> permissions = PermissionADO.GetAll(dbConn);
+            List<PermissionResponse> permissionResponse = new List<PermissionResponse>();
+            foreach(Permission permission in permissions)
+            {
+                permissionResponse.Add(permissionResponse.FromPermission(permission));
+            }
             return Results.Ok(permissions);
         });
     }
