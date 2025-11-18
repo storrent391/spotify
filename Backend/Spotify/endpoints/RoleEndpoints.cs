@@ -11,7 +11,12 @@ public static class RoleEndpoints
         app.MapGet("/Roles", () =>
         {
             List<Role> roles = RoleADO.GetAll(dbConn);
-            return Results.Ok(roles);
+            List<RoleResponse> roleResponse = new List<RoleResponse>();
+            foreach(Role role in roles)
+            {
+                roleResponse.Add(roleResponse.FromRole(role));
+            }
+            return Results.Ok(roleResponse);
         });
     }
 }
