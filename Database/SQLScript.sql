@@ -61,4 +61,5 @@ CREATE TABLE Permissions (
     ID UNIQUEIDENTIFIER PRIMARY KEY,
     Code NVARCHAR(5) NOT NULL,
     Name NVARCHAR(30)NOT NULL
-)
+    CONSTRAINT unique_code_Permissions UNIQUE (Code)
+);
