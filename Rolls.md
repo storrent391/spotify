@@ -34,3 +34,12 @@
 | Read  |   |   | X | X |
 | Update|   |   | X | X |
 | Delete|   |   | X | X |
+
+
+
+
+
+User = 0
+Artist = 3
+Admin= 6
+SuperAdmin = 9
