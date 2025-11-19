@@ -22,6 +22,8 @@ app.MapSongEndpoints(dbConn);
 app.MapPlaylistEndpoints(dbConn);
 app.MapRoleEndpoints(dbConn);
 app.MapPermissionEndpoints(dbConn);
+app.MapAuthEndpoints(dbConn);
+
 
 app.MapRoleEndpoints(dbConn);
 

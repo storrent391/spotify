@@ -121,7 +121,10 @@ public class UserADO
     public static void Update(DatabaseConnection dbConn, User user)
     {
         dbConn.Open();
+        
+        UserValidator validator = new UserValidator(dbConn);
 
+        validator.ValidateUserDoesNotExist(user.Name);
         string sql = @"UPDATE Users
                        SET Name = @Name,
                            Password = @Password,

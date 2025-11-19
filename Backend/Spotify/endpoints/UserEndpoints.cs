@@ -31,7 +31,7 @@ public static class UserEndpoints
                 Id = Guid.NewGuid(),
                 Name = req.Name,
                 Password = req.Password,
-                Salt = req.Salt,
+                
             };
 
             UserADO.Insert(dbConn, user);
