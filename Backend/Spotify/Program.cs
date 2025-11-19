@@ -25,6 +25,4 @@ app.MapPermissionEndpoints(dbConn);
 app.MapAuthEndpoints(dbConn);
 
 
-app.MapRoleEndpoints(dbConn);
-
 app.Run("http://localhost:5000");
