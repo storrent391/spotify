@@ -51,7 +51,7 @@ namespace SpotifyInterface
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Usuario o contraseña incorrectos", "Error");
+                    MessageBox.Show("Usuari o contrasenya incorrectes", "Error");
                     return;
                 }
 
