@@ -1,0 +1,78 @@
+﻿<Window x:Class="SpotifyInterface.SongManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="STOPIFY" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#19FF8A">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16*"/>
+            <RowDefinition Height="231*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0"
+                     Height="50"
+                     Margin="30,104,412,-104"
+                     Padding="10"
+                     VerticalContentAlignment="Center"
+                     Background="#E1FAD8"
+                     Foreground="#7A7A7A"
+                     FontSize="18"
+                     Text="Enter song name" Grid.ColumnSpan="2"
+            />
+
+            <TextBox
+                     Margin="30,172,30,-360"
+                     Background="#E1FAD8"
+                     Foreground="#7A7A7A"
+                     FontSize="18"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2"
+            />
+        </Grid>
+
+        <Button Content="Post"
+                    Width="120" Height="45"
+                    Background="#0E8F4F"
+                    Foreground="White"
+                    FontSize="18"
+                    Padding="5"
+                    BorderThickness="0" Margin="291,353,549,64" Grid.Row="3"
+        />
+        <Button Content="Search"
+                    Width="120" Height="45"
+                    Background="#0E8F4F"
+                    Foreground="White"
+                    FontSize="18"
+                    Padding="5"
+                    BorderThickness="0" Margin="113,353,727,64" Grid.Row="3"
+        />
+        <Button Content="🏠 Home"
+            Click="OpenMainMenu"
+            Width="120" Height="45"
+            Background="#0E8F4F"
+            Foreground="White"
+            FontSize="18"
+            Padding="5"
+            BorderThickness="0" Margin="-19,-20,859,25" Grid.RowSpan="2"
+        />
+        <Button Content="Delete"
+            Width="120" Height="45"
+            Background="Red"
+            Foreground="Black"
+            FontSize="18"
+            Padding="5"
+            BorderThickness="0" Margin="466,353,374,64" Grid.Row="3"
+        />
+    </Grid>
+</Window>

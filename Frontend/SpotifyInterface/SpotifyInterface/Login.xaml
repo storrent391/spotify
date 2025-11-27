@@ -4,6 +4,7 @@
         Title="Login" Width="500" Height="450" Background="#D9D9D9">
 
     <Grid>
+        
         <Border Background="#18FF96" CornerRadius="12" Padding="40" Width="450" Height="400"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
 
@@ -63,5 +64,6 @@
                         Click="LoginButton_Click"/>
             </Grid>
         </Border>
+        
     </Grid>
 </Window>

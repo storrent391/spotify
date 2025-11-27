@@ -33,7 +33,10 @@ namespace SpotifyInterface
         //    main.Show();
         //    this.Close();
         //}
-
+        public static class UserSession
+        {
+            public static User? LoggedUser { get; set; }
+        }
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             // Crear objeto User para enviar
@@ -66,6 +69,7 @@ namespace SpotifyInterface
                 }
 
                 // Continuar a la ventana principal
+                UserSession.LoggedUser = loggedUser;
                 new MainWindow().Show();
                 Close();
             }
