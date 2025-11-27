@@ -9,15 +9,9 @@ public class MediaService
 {
     private readonly string _uploadsFolder;
 
-    // public MediaService()
-    // {
-    //     _uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+    
 
-    //     if (!Directory.Exists(_uploadsFolder))
-    //         Directory.CreateDirectory(_uploadsFolder);
-    // }
-
-    public async Task ProcessAndInsertUploadedMedia(DatabaseConnection dbConn, Guid songId, IFormFile file)
+    public async Task<Media> ProcessAndInsertUploadedMedia( Guid songId, IFormFile file)
     {
 
         String filePath = await SaveImage(songId, file);
@@ -41,11 +35,12 @@ public class MediaService
                 Song_Id = songId,
                 Url = filePath
             };
-            MediaADO.Insert(dbConn, media);
+            return media;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error processant fitxer: {ex.Message}");
+            return null;
         }
     }
 

@@ -44,23 +44,37 @@ public static class SongEndpoints
         app.MapDelete("/Songs/{id}", (Guid Id) => SongADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
 
         app.MapPost("/Song/{id}/upload", async (Guid id, IFormFileCollection images) =>
-        {
-            List<Task> tasques = new List<Task>(images.Count);
-            if (images == null || images.Count == 0)
-            return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
-            Song? song = SongADO.GetById(dbConn, id);
-            if (song is null)
-            return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
-    
-            MediaService mediaService = new();
-
-            for (int i = 0; i < images.Count; i++)
             {
-                tasques.Add(Task.Run(() =>  mediaService.ProcessAndInsertUploadedMedia(dbConn, id, images[i])));
-            }
-            Task.WhenAll(tasques.ToArray());
+                if (images == null || images.Count == 0)
+                    return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
 
-            return Results.Ok(new { message = "Imatge pujada correctament."});
+                Song? song = SongADO.GetById(dbConn, id);
+                if (song is null)
+                    return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
+
+                MediaService mediaService = new();
+
+                // SOLO UNA VEZ
+                List<Task<Media?>> tasques = new();
+
+                foreach (var image in images)
+                {
+                    tasques.Add(mediaService.ProcessAndInsertUploadedMedia( id, image));
+                }
+
+                Media?[] medias = await Task.WhenAll(tasques);
+
+                foreach (Media media in medias)
+                {
+                    if (media != null)
+                    {
+                        MediaADO.Insert(dbConn, media);
+                    }
+                }
+
+                return Results.Ok(new { message = "Imatge pujada correctament." });
+            
+
 
         }).DisableAntiforgery();
     }             
