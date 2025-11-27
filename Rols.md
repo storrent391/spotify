@@ -34,3 +34,21 @@
 | Read  |   |   | X | X |
 | Update|   |   | X | X |
 | Delete|   |   | X | X |
+
+
+
+
+ROLES
+---------
+User = 0
+Artist = 3
+Admin= 6
+SuperAdmin = 9
+
+
+PERMISSION
+----------
+Write = 0
+Read = 3
+Update = 6
+Delete = 9

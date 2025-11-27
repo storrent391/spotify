@@ -1,0 +1,109 @@
+﻿<Window x:Class="SpotifyInterface.AdminUsers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestió d'Usuaris"
+        Width="900" Height="550"
+        Background="#18FF96"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!-- GREEN BUTTON (Spotify) -->
+        <Style x:Key="SpotifyButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#0F8A47"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <!-- RED BUTTON (Eliminar) -->
+        <Style x:Key="SpotifyDangerButtonStyle" TargetType="Button" BasedOn="{StaticResource SpotifyButtonStyle}">
+            <Setter Property="Background" Value="#C62828"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT PANEL (LISTA DE USUARIOS) -->
+        <Border Grid.Column="0"
+                Background="#18FF96"
+                CornerRadius="12"
+                Padding="20">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Título -->
+                    <RowDefinition Height="*"/>
+                    <!-- ListBox -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Botones -->
+                </Grid.RowDefinitions>
+
+                <!-- TÍTULO -->
+                <TextBlock Grid.Row="0"
+                           Text="Gestió d'usuaris"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0 0 0 20"/>
+
+                <!-- LISTA DE USUARIOS -->
+                <ListBox Grid.Row="1"
+                         x:Name="UsersList"
+                         Background="#DFFFD6"
+                         BorderBrush="#0F8A47"
+                         Foreground="Black"
+                         FontSize="16"
+                         Padding="10"/>
+
+                <!-- BOTONES -->
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0 20 0 0">
+
+                    <Button Content="Crear Usuari"
+                            Width="150"
+                            Style="{StaticResource SpotifyButtonStyle}"
+                            Click="CreateUser_Click"/>
+
+                    <Button Content="Editar"
+                            Width="120"
+                            Style="{StaticResource SpotifyButtonStyle}"
+                            Click="EditUser_Click"/>
+
+                    <Button Content="Eliminar"
+                            Width="120"
+                            Style="{StaticResource SpotifyDangerButtonStyle}"
+                            Click="DeleteUser_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- RIGHT PANEL (INFO/DECORATIVO) -->
+        <Border Grid.Column="1"
+                Background="#18FF96"
+                CornerRadius="12"
+                Padding="30"
+                Margin="20 0 0 0">
+            <StackPanel>
+                <TextBlock Text="Selecciona un usuari per editar o eliminar.
+                           
+                           Seleciona editar si li vols assignar més rols"
+                           FontSize="15"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           TextWrapping="Wrap"
+                           Margin="0 0 0 20"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>
