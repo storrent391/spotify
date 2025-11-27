@@ -45,26 +45,24 @@ public static class SongEndpoints
 
         app.MapPost("/Song/{id}/upload", async (Guid id, IFormFileCollection images) =>
         {
+            List<Task> tasques = new List<Task>(images.Count);
             if (images == null || images.Count == 0)
             return Results.BadRequest(new { message = "No s'ha rebut cap imatge." });
             Song? song = SongADO.GetById(dbConn, id);
             if (song is null)
             return Results.NotFound(new { message = $"media amb Id {id} no trobat." });
-                
+    
             MediaService mediaService = new();
 
             for (int i = 0; i < images.Count; i++)
             {
-                Media? media = await mediaService.ProcessAndInsertUploadedMedia(dbConn, id, images[i]);
-
-                MediaADO.Insert(dbConn, media);
+                tasques.Add(Task.Run(() =>  mediaService.ProcessAndInsertUploadedMedia(dbConn, id, images[i])));
             }
+            Task.WhenAll(tasques.ToArray());
 
             return Results.Ok(new { message = "Imatge pujada correctament."});
+
         }).DisableAntiforgery();
     }             
 }
-    
-
-
 public record SongRequest(Guid Id, string Name);

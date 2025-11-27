@@ -9,21 +9,18 @@ public class MediaService
 {
     private readonly string _uploadsFolder;
 
-    public MediaService()
-    {
-        _uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+    // public MediaService()
+    // {
+    //     _uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 
-        if (!Directory.Exists(_uploadsFolder))
-            Directory.CreateDirectory(_uploadsFolder);
-    }
+    //     if (!Directory.Exists(_uploadsFolder))
+    //         Directory.CreateDirectory(_uploadsFolder);
+    // }
 
-    public async Task<Media?> ProcessAndInsertUploadedMedia(DatabaseConnection dbConn, Guid songId, IFormFile file)
+    public async Task ProcessAndInsertUploadedMedia(DatabaseConnection dbConn, Guid songId, IFormFile file)
     {
 
         String filePath = await SaveImage(songId, file);
-        if (file == null || file.Length == 0)
-            return null;
-
         try
         {
             var tagFile = TagLib.File.Create(filePath);
@@ -44,30 +41,13 @@ public class MediaService
                 Song_Id = songId,
                 Url = filePath
             };
-
-            return media;
+            MediaADO.Insert(dbConn, media);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error processant fitxer: {ex.Message}");
-            return null;
         }
     }
-    //     public async Task<List<Media>> ProcessAndInsertUploadedMediaRange(DatabaseConnection dbConn, Guid songId, IFormFileCollection files, String filePath)
-    //     {
-    //         var result = new List<Media>();
-    //         List<Task> added = new List<Task>();
-
-    //         for (int i = 0; files.Count; i++)
-    //         {
-    //             added.Add(Task.Run(() => ProcessAndInsertUploadedMedia(dbConn, songId, files[i], filePath)));
-    //             if (added != null)
-    //                 result.Add(added[i]);
-    //         }
-    //         Task.WaitAll(added.ToArray());
-    //         return result;
-    //     }
-
 
     private static async Task<string> SaveImage(Guid id, IFormFile image)
     {
