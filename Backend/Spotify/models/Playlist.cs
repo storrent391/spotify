@@ -6,5 +6,4 @@ public class Playlist
     
     public string Name { get; set; }
     
-    public Guid User_Id { get; set; }   
 }
