@@ -11,8 +11,8 @@ public static class PlaylistEndpoints
         // GET /playlists
         app.MapGet("/playlists", () =>
         {
-            List<Playlist>  playlists = PlaylistADO.GetAll(dbConn);
-            return Results.Ok(playlists);
+            List<DataSong>  DataSongs= PlaylistADO.GetAll(dbConn);
+            return Results.Ok(DataSongs);
         });
 
         // GET Playlists by id
@@ -47,8 +47,7 @@ public static class PlaylistEndpoints
             Playlist playlist = new Playlist
             {
                 Id = Guid.NewGuid(),
-                Name = req.Name,
-                User_Id = req.User_Id
+                Name = req.Name
             };
 
             PlaylistADO.Insert(dbConn, playlist);
@@ -68,8 +67,7 @@ public static class PlaylistEndpoints
             Playlist updated = new Playlist
             {
                 Id = id,
-                Name = req.Name,
-                User_Id = req.User_Id
+                Name = req.Name
             };
 
             PlaylistADO.Update(dbConn, updated);
@@ -83,4 +81,4 @@ public static class PlaylistEndpoints
 }
 
 // DTO pel request
-public record PlaylistRequest(Guid Id, string Name, Guid User_Id);
+public record PlaylistRequest(Guid Id, string Name);

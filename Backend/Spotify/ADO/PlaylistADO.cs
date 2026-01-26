@@ -12,13 +12,12 @@ class PlaylistADO
     {
         dbConn.Open();
 
-        string sql = @"INSERT INTO Playlist (Id, Name, User_Id)
-                        VALUES (@Id, @Name , @User_Id)";
+        string sql = @"INSERT INTO Playlist (Id, Name)
+                        VALUES (@Id, @Name)";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", playlist.Id);
         cmd.Parameters.AddWithValue("@Name", playlist.Name);
-        cmd.Parameters.AddWithValue("@User_Id", playlist.User_Id);
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
@@ -29,45 +28,45 @@ class PlaylistADO
 
         string sql =@"UPDATE Playlist
                        SET Name = @Name,
-                           User_Id = @User_Id,
                        WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", playlist.Id);
         cmd.Parameters.AddWithValue("@Name", playlist.Name);
-        cmd.Parameters.AddWithValue("@User_Id", playlist.User_Id);
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
 
-    public static List<Playlist> GetAll(DatabaseConnection dbConn)
+    public static List<DataSong> GetAll(DatabaseConnection dbConn)
     {
-        List<Playlist> playlist = new();
+        List<DataSong> dataSong = new();
 
         dbConn.Open();
-        string sql = "SELECT Id, Name, User_Id FROM Playlist";
+        string sql = "SELECT sp.ID, sp.Song_ID, sp.Playlist_ID, s.Name, p.Name FROM SongPlaylist as sp INNER JOIN Songs as s on s.ID = sp.Song_ID INNER JOIN Playlist as p on p.ID = sp.Playlist_ID ";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
-            playlist.Add(new Playlist
+            dataSong.Add(new DataSong
             {
-                Id = reader.GetGuid(0),
-                Name = reader.GetString(1),
-                User_Id = reader.GetGuid(2)
+                ID = reader.GetGuid(0),
+                Song_ID = reader.GetGuid(1),
+                Playlist_ID = reader.GetGuid(2),
+                Song_name = reader.GetString(3),
+                Playlist_name = reader.GetString(4),
             });
         }
 
         dbConn.Close();
-        return playlist;
+        return dataSong;
     }
 
     public static Playlist? GetById(DatabaseConnection dbConn, Guid Id)
     {
         dbConn.Open();
-        string sql = "SELECT Id, Name, User_Id FROM Playlist WHERE Id = @Id";
+        string sql = "SELECT ID, Name  FROM Playlist WHERE ID = @ID";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", Id);
@@ -80,8 +79,7 @@ class PlaylistADO
             playlist = new Playlist
             {
                 Id = reader.GetGuid(0),
-                Name = reader.GetString(2),
-                User_Id = reader.GetGuid(3)
+                Name = reader.GetString(1)
             };
         }
 
@@ -93,10 +91,10 @@ class PlaylistADO
     {
         dbConn.Open();
 
-        string sql = @"DELETE FROM Playlist WHERE Id = @Id";
+        string sql = @"DELETE FROM Playlist WHERE ID = @ID";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Id", Id);
+        cmd.Parameters.AddWithValue("@ID", Id);
 
         int rows = cmd.ExecuteNonQuery();
 

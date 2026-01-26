@@ -7,14 +7,14 @@ public static class UserEndpoints
 {
     public static void MapUserEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
-        // GET /users
+
         app.MapGet("/users", () =>
         {
-            List<User> users = UserADO.GetAll(dbConn);
-            return Results.Ok(users);
+            List<DataUser> dataUser = UserADO.GetAll(dbConn);
+            return Results.Ok(dataUser);
         });
 
-        // GET /user/{id}
+
         app.MapGet("/user/{id}", (Guid id) =>
         {
             User user = UserADO.GetById(dbConn, id);
@@ -38,7 +38,6 @@ public static class UserEndpoints
             return Results.Created($"/user/{user.Id}", user);
         });
 
-        // PUT /user/{id}
         app.MapPut("/user/{id}", (Guid id, UserRequest req) =>
         {
             var existing = UserADO.GetById(dbConn, id);
@@ -53,7 +52,7 @@ public static class UserEndpoints
             return Results.Ok(existing);
         });
 
-        // DELETE /user/{id}
+
         app.MapDelete("/user/{id}", (Guid Id) => UserADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
     }
 }
