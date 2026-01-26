@@ -24,6 +24,22 @@ public static class PlaylistEndpoints
                 ? Results.Ok(playlist)
                 : Results.NotFound(new { message = $"Playlist with Id {Id} not found." });
         });
+        
+        // GET PlaylistsSongs by user id
+        app.MapGet("/Songplaylists/{Id}", (Guid Id) =>
+        {
+            SongPlaylist songPlaylist = SongPlaylistADO.GetById(dbConn, Id);
+
+            return songPlaylist is not null
+                ? Results.Ok(songPlaylist)
+                : Results.NotFound(new { message = $"SongPlaylist with Id {Id} not found." });
+        });
+
+
+
+
+
+
 
         // POST /playlists
         app.MapPost("/playlists", (PlaylistRequest req) =>
