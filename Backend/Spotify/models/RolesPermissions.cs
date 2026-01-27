@@ -4,9 +4,8 @@ public class RolePermission
 {
     public Guid Id { get; set; }
     
-    public string Permission_Code { get; set; }
+    public Guid Permission_ID { get; set; }
     
-    public string Role_Code { get; set; }   
+    public Guid Role_ID { get; set; }   
 
-    
 }

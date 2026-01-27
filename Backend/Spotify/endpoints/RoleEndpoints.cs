@@ -9,6 +9,7 @@ public static class RoleEndpoints
 {
     public static void MapRoleEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
+        
         app.MapGet("/Roles", () =>
         {
             List<Role> roles = RoleADO.GetAll(dbConn);
@@ -29,23 +30,7 @@ public static class RoleEndpoints
                 : Results.NotFound(new { message = $"No permissions found for Role Code {Role_Code}" });
         });
 
-        app.MapPost("/Roles/{Role_Code}/Permissions", (string Role_Code, AssignPermissionRequest req) =>
-        {
-            RolePermission rolePermission = new RolePermission
-            {
-                Id = Guid.NewGuid(),
-                Permission_Code = req.Permission_Code,
-                Role_Code = Role_Code
-            };
-
-            RolePermissionADO.Insert(dbConn, rolePermission);
-
-            return Results.Created($"/Roles/{Role_Code}/Permissions", rolePermission);
-        });
-
     }
 
-
 }
-public record AssignPermissionRequest(string Permission_Code);
 
