@@ -3,7 +3,7 @@ using Spotify.Model;
 using Spotify.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-
+using Spotify.Common;
 //using System.Reflection.Metadata.Ecma335;
 
 
@@ -13,6 +13,8 @@ public static class SongEndpoints
 {
     public static void MapSongEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
+
+        //POST
         app.MapPost("/Songs", (SongRequest req) =>
         {
             Song song = new Song
@@ -26,11 +28,27 @@ public static class SongEndpoints
             return Results.Created($"/Songs/{song.Id}", song);
         });
 
-        app.MapGet("/Songs", () =>
+
+
+
+
+        //GET
+        app.MapGet("/Songs", (Guid reqID) =>
         {
+            var perms = ValidacioPermisosADO.GetPermsById(dbConn, reqID);
+
+            if (!perms.Contains(CommonPermissions.GetUsers))
+                // return Results.StatusCode(403);
+                throw new Exception($"El usuari no te permisos per verure les Songs");
+
             List<Song> songs = SongADO.GetAll(dbConn);
             return Results.Ok(songs);
         });
+
+
+
+
+
 
         app.MapGet("/Songs/{Id}", (Guid Id) =>
         {
