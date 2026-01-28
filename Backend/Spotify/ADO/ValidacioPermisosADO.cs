@@ -7,9 +7,9 @@ namespace Spotify.Repository;
 
 public class ValidacioPermisosADO
 {
-    public static User? GetById(DatabaseConnection dbConn, Guid id)
+    public static List<string> GetPermsById(DatabaseConnection dbConn, Guid id)
     {
-        List<string>ListPermisos = new List<string>();
+        List<string>perms = new List<string>();
 
         dbConn.Open();
 
@@ -25,9 +25,10 @@ public class ValidacioPermisosADO
         using SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
-            ListPermisos.Add(reader.GatString(0));
+            perms.Add(reader.GetString(0));
         
         dbConn.Close();
-        return ListPermisos;
+        return perms;
     }
+
 }
