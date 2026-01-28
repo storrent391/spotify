@@ -13,22 +13,38 @@ public static class RoleEndpoints
         app.MapGet("/Roles", () =>
         {
             List<Role> roles = RoleADO.GetAll(dbConn);
-            List<RoleResponse> roleResponse = new List<RoleResponse>();
+            List<RoleResponse> roleResponses = new List<RoleResponse>();
             foreach (Role role in roles)
             {
-                roleResponse.Add(RoleResponse.FromRole(role));
+                roleResponses.Add(RoleResponse.FromRole(role));
             }
-            return Results.Ok(roleResponse);
+            return Results.Ok(roleResponses);
         });
 
-        app.MapGet("/Roles/{Role_Code}/Permission", (string Role_Code) =>
+         app.MapGet("/Permission", () =>
+        { 
+            List<RolePermission> rolePermissions = RolePermissionADO.GetAll(dbConn);
+            List<RolePermissionResponse> rolePermissionResponses = new List<RolePermissionResponse>();
+            foreach (RolePermission rolePermission in rolePermissions)
+            {
+                rolePermissionResponses.Add(RolePermissionResponse.FromRolePermission(rolePermission));
+            }
+            return Results.Ok(rolePermissionResponses);
+        });
+
+        // GET carritoProducte by id
+        app.MapGet("/Roles/{id}/Permission", (Guid id) =>
         {
-            List<RolePermission> rolePermissions = RolePermissionADO.GetByCode(dbConn, Role_Code);
+            List<RolePermission> rolePermissions = RolePermissionADO.GetById(dbConn, id)!;
+            List<RolePermissionResponse> rolePermissionResponses = new List<RolePermissionResponse>();
+            foreach (RolePermission rolePermission in rolePermissions)
+            {
+                rolePermissionResponses.Add(RolePermissionResponse.FromRolePermission(rolePermission));
+            }
+            return Results.Ok(rolePermissionResponses);
 
-            return rolePermissions.Count > 0
-                ? Results.Ok(rolePermissions)
-                : Results.NotFound(new { message = $"No permissions found for Role Code {Role_Code}" });
         });
+
 
     }
 

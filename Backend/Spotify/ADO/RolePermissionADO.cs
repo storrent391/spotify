@@ -7,12 +7,13 @@ namespace Spotify.Repository;
 
 class RolePermissionADO
 {
+    //GET
     public static List<RolePermission> GetAll(DatabaseConnection dbConn)
     {
         List<RolePermission> rolePermissions = new();
 
         dbConn.Open();
-        string sql = "SELECT ID,Permission_Code,Role_Code FROM RolesPermissions";
+        string sql = "SELECT ID,Permission_ID,Role_ID FROM RolesPermissions";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
@@ -22,23 +23,23 @@ class RolePermissionADO
             rolePermissions.Add(new RolePermission
             {
                 Id = reader.GetGuid(0),
-                Permission_Code = reader.GetString(1),
-                Role_Code = reader.GetString(2),
+                Permission_ID = reader.GetGuid(1),
+                Role_ID = reader.GetGuid(2),
             });
         }
         dbConn.Close();
         return rolePermissions;
     }
 
-    public static List<RolePermission> GetByCode(DatabaseConnection dbConn, string Role_Code)
+    public static List<RolePermission> GetById(DatabaseConnection dbConn, Guid Role_ID)
     {
         List<RolePermission> rolePermissions = new();
 
         dbConn.Open();
-        string sql = "SELECT ID, Permission_Code, Role_Code FROM RolesPermissions WHERE Role_Code = @Role_Code;";
+        string sql = "SELECT ID, Permission_ID, Role_ID FROM RolesPermissions WHERE Role_ID = @Role_ID;";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-        cmd.Parameters.AddWithValue("@Role_Code", Role_Code);
+        cmd.Parameters.AddWithValue("@Role_ID", Role_ID);
 
         using SqlDataReader reader = cmd.ExecuteReader();
 
@@ -47,8 +48,8 @@ class RolePermissionADO
             rolePermissions.Add(new RolePermission
             {
                 Id = reader.GetGuid(0),
-                Permission_Code = reader.GetString(1),
-                Role_Code = reader.GetString(2)
+                Permission_ID = reader.GetGuid(1),
+                Role_ID = reader.GetGuid(2)
             });
         }
 
@@ -60,13 +61,13 @@ class RolePermissionADO
 {
     dbConn.Open();
 
-    string sql = @"INSERT INTO RolesPermissions (ID, Permission_Code, Role_Code)
-                   VALUES (@ID, @Permission_Code, @Role_Code)";
+    string sql = @"INSERT INTO RolesPermissions (ID, Permission_ID, Role_ID)
+                   VALUES (@ID, @Permission_ID, @Role_ID)";
 
     using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
     cmd.Parameters.AddWithValue("@ID", rolePermission.Id);
-    cmd.Parameters.AddWithValue("@Permission_Code", rolePermission.Permission_Code);
-    cmd.Parameters.AddWithValue("@Role_Code", rolePermission.Role_Code);
+    cmd.Parameters.AddWithValue("@Permission_ID", rolePermission.Permission_ID);
+    cmd.Parameters.AddWithValue("@Role_ID", rolePermission.Role_ID);
 
     cmd.ExecuteNonQuery();
     dbConn.Close();
