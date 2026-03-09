@@ -33,7 +33,7 @@
         <!-- LEFT PANEL (LISTA DE USUARIOS) -->
         <Border Grid.Column="0"
                 Background="#18FF96"
-                CornerRadius="12"
+               
                 Padding="20">
 
             <Grid>

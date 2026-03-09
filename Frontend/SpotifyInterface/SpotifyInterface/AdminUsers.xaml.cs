@@ -12,7 +12,7 @@ namespace SpotifyInterface
     {
         private readonly HttpClient _httpClient = new HttpClient();
         public List<User> Users = new List<User>();
-        private const string ApiBaseUrl = "https://localhost:5001"; // Canvia segons la teva API
+        private const string ApiBaseUrl = "https://localhost:5000"; // Canvia segons la teva API
 
         public AdminUsers()
         {
