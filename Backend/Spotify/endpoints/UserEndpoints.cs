@@ -56,5 +56,4 @@ public static class UserEndpoints
         app.MapDelete("/user/{id}", (Guid Id) => UserADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
     }
 }
-
 public record UserRequest(Guid Id, string Name, string Password, string Salt);

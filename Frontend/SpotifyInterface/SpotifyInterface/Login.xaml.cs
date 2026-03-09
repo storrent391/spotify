@@ -70,7 +70,7 @@ namespace SpotifyInterface
 
                 // Continuar a la ventana principal
                 UserSession.LoggedUser = loggedUser;
-                new MainWindow().Show();
+                new AdminUsers().Show();
                 Close();
             }
             catch
