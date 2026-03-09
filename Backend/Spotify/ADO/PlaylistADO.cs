@@ -7,7 +7,6 @@ namespace Spotify.Repository;
 
 class PlaylistADO
 {
-   
     public static void Insert(DatabaseConnection dbConn,Playlist playlist)    // El mètode ha de passar a ser static
     {
         dbConn.Open();
@@ -21,7 +20,6 @@ class PlaylistADO
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
-
     public static void Update(DatabaseConnection dbConn, Playlist playlist)
     {
         dbConn.Open(); 
@@ -36,7 +34,6 @@ class PlaylistADO
         cmd.ExecuteNonQuery();
         dbConn.Close();
     }
-
     public static List<DataSong> GetAll(DatabaseConnection dbConn)
     {
         List<DataSong> dataSong = new();
@@ -72,7 +69,7 @@ class PlaylistADO
         cmd.Parameters.AddWithValue("@Id", Id);
 
         using SqlDataReader reader = cmd.ExecuteReader();
-        Playlist? playlist = null;    // Si no inicialitzem la variable => no existeix en el return!
+        Playlist? playlist = null;   
 
         if (reader.Read())
         {
@@ -86,7 +83,6 @@ class PlaylistADO
         dbConn.Close();
         return playlist;
     }
-
     public static bool Delete(DatabaseConnection dbConn, Guid Id)
     {
         dbConn.Open();
