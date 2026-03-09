@@ -1,6 +1,6 @@
- using Microsoft.Data.SqlClient;
- using Spotify.Model;
- using Spotify.Services;
+using Microsoft.Data.SqlClient;
+using Spotify.Model;
+using Spotify.Services;
 
 
 namespace Spotify.Repository;
@@ -57,21 +57,37 @@ class RolePermissionADO
         return rolePermissions;
     }
 
-   public static void Insert(DatabaseConnection dbConn, RolePermission rolePermission)
-{
-    dbConn.Open();
+    public static void Insert(DatabaseConnection dbConn, RolePermission rolePermission)
+    {
+        dbConn.Open();
 
-    string sql = @"INSERT INTO RolesPermissions (ID, Permission_ID, Role_ID)
+        string sql = @"INSERT INTO RolesPermissions (ID, Permission_ID, Role_ID)
                    VALUES (@ID, @Permission_ID, @Role_ID)";
 
-    using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-    cmd.Parameters.AddWithValue("@ID", rolePermission.Id);
-    cmd.Parameters.AddWithValue("@Permission_ID", rolePermission.Permission_ID);
-    cmd.Parameters.AddWithValue("@Role_ID", rolePermission.Role_ID);
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@ID", rolePermission.Id);
+        cmd.Parameters.AddWithValue("@Permission_ID", rolePermission.Permission_ID);
+        cmd.Parameters.AddWithValue("@Role_ID", rolePermission.Role_ID);
 
-    cmd.ExecuteNonQuery();
-    dbConn.Close();
-}
+        cmd.ExecuteNonQuery();
+        dbConn.Close();
+    }
+
+    public static bool Delete(DatabaseConnection dbConn, Guid Id)
+    {
+        dbConn.Open();
+
+        string sql = @"DELETE FROM RolesPermissions WHERE ID = @ID";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@ID", Id);
+
+        int rows = cmd.ExecuteNonQuery();
+
+        dbConn.Close();
+
+        return rows > 0;
+    }
 
 
 }

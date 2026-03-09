@@ -29,4 +29,39 @@ class PermissionADO
         dbConn.Close();
         return permissions;
     }
+
+    //POST
+    public static void Insert(DatabaseConnection dbConn, Permission permission)
+    {
+
+        dbConn.Open();
+
+        string sql = @"INSERT INTO Permissions (Id, Code, Name)         
+                        VALUES (@Id, @Code, @Name)";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", permission.Id);
+        cmd.Parameters.AddWithValue("@Code", permission.Code);
+        cmd.Parameters.AddWithValue("@Name", permission.Name);
+
+        cmd.ExecuteNonQuery();
+
+        dbConn.Close();
+    }
+
+    public static bool Delete(DatabaseConnection dbConn, Guid Id)
+    {
+        dbConn.Open();
+
+        string sql = @"DELETE FROM Permissions WHERE Id = @Id";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", Id);
+
+        int rows = cmd.ExecuteNonQuery();
+
+        dbConn.Close();
+
+        return rows > 0;
+    }
 }

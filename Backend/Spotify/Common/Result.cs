@@ -1,4 +1,4 @@
-namespace Store.Common;
+namespace Spotify.Common;
 
 public class Result
 {
