@@ -73,7 +73,7 @@ public class UserADO
         List<DataUser> dataUser = new();
         dbConn.Open();
 
-        string sql = "SELECT pu.ID, pu.User_ID, pu.Playlist_ID, u.Name, p.Name FROM UserPlaylist as pu INNER JOIN Users as u on u.ID = pu.User_ID INNER JOIN Playlist as p on p.ID = pu.Playlist_ID";
+        string sql = "SELECT pl.ID, pl.User_ID, u.Name, pl.Name FROM Playlist as pl INNER JOIN Users as u on u.ID = pl.User_ID ";
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
 
@@ -81,11 +81,10 @@ public class UserADO
         {
             dataUser.Add(new DataUser
             {
-                ID = reader.GetGuid(0),
-                User_ID = reader.GetGuid(1),
-                Playlist_ID = reader.GetGuid(2),
-                User_name = reader.GetString(3),
-                Playlist_name = reader.GetString(4)
+                User_ID = reader.GetGuid(0),
+                Playlist_ID = reader.GetGuid(1),
+                User_name = reader.GetString(2),
+                Playlist_name = reader.GetString(3)
             });
         }
 
