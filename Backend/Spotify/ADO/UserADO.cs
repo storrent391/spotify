@@ -7,8 +7,6 @@ namespace Spotify.Repository;
 
 public class UserADO
 {
-
-
     public static void Insert(DatabaseConnection dbConn, User user)
 {
     
@@ -20,12 +18,13 @@ public class UserADO
 
     dbConn.Open();
 
-    string sql = @"INSERT INTO Users (Id, Name, Password, Salt)
-                   VALUES (@Id, @Name, @Password, @Salt)";
+    string sql = @"INSERT INTO Users (Id, Name, Correu, Password, Salt)
+                   VALUES (@Id, @Name, @Correu, @Password, @Salt)";
 
     using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
     cmd.Parameters.AddWithValue("@Id", user.Id);
     cmd.Parameters.AddWithValue("@Name", user.Name);
+    cmd.Parameters.AddWithValue("@Correu", user.Correu);
     cmd.Parameters.AddWithValue("@Password", user.Password);
     cmd.Parameters.AddWithValue("@Salt", user.Salt);
 
@@ -40,7 +39,7 @@ public class UserADO
         dbConn.Open();
 
         string sql = @"
-            SELECT Id, Name, Password, Salt
+            SELECT Id, Name, Correu, Password, Salt
             FROM Users
             WHERE Name = @Name
         ";
@@ -58,8 +57,9 @@ public class UserADO
             {
                 Id = reader.GetGuid(0),
                 Name = reader.GetString(1),
-                Password = reader.GetString(2),
-                Salt = reader.GetString(3)
+                Correu = reader.GetString(2),
+                Password = reader.GetString(3),
+                Salt = reader.GetString(4)
             };
         }
 

@@ -30,6 +30,7 @@ public static class UserEndpoints
             {
                 Id = Guid.NewGuid(),
                 Name = req.Name,
+                Correu = req.Correu,
                 Password = req.Password,
                 
             };
@@ -45,6 +46,7 @@ public static class UserEndpoints
                 return Results.NotFound();
 
             existing.Name = req.Name;
+            existing.Correu = req.Correu;
             existing.Password = req.Password;
             existing.Salt = req.Salt;
 
@@ -56,4 +58,4 @@ public static class UserEndpoints
         app.MapDelete("/user/{id}", (Guid Id) => UserADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
     }
 }
-public record UserRequest(Guid Id, string Name, string Password, string Salt);
+public record UserRequest(Guid Id, string Name, string Correu, string Password, string Salt);
