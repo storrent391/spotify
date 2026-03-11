@@ -1,6 +1,7 @@
 using Spotify.Repository;
 using Spotify.Services;
 using Spotify.Model;
+using Spotify.DTO;
 
 namespace Spotify.Endpoints;
 
@@ -25,7 +26,7 @@ public static class PlaylistEndpoints
                 : Results.NotFound(new { message = $"Playlist with Id {Id} not found." });
         });
         
-        // GET PlaylistsSongs by user id
+        // GET PlaylistsSongs by user id 
         app.MapGet("/Songplaylists/{Id}", (Guid Id) =>
         {
             SongPlaylist songPlaylist = SongPlaylistADO.GetById(dbConn, Id);
@@ -34,6 +35,36 @@ public static class PlaylistEndpoints
                 ? Results.Ok(songPlaylist)
                 : Results.NotFound(new { message = $"SongPlaylist with Id {Id} not found." });
         });
+
+
+
+        //Obtenir totes les songs de una playlist 
+        app.MapGet("/Playlist/{id}/SongPlaylist", (Guid id) =>
+        {
+            List<SongPlaylist> songPlaylists = SongPlaylistADO.GetSongPlaylistByPlayListbyID(dbConn, id)!;
+            List<SongPlaylistResponse> songPlaylistResponses = new List<SongPlaylistResponse>();
+            foreach (SongPlaylist songPlaylist  in songPlaylists)
+            {
+                songPlaylistResponses.Add(SongPlaylistResponse.FromSongPlaylist(songPlaylist));
+            }
+            return Results.Ok(songPlaylistResponses);
+
+        });
+
+         //Obtenir totes les playlist de un usuari
+        app.MapGet("/Playlisat/{id}/User", (Guid id) =>
+        {
+            List<Playlist> playlists = SongPlaylistADO.GetSongPlaylistByUser(dbConn, id)!;
+            List<PlayListResponse> playListResponses = new List<PlayListResponse>();
+            foreach (Playlist playlist  in playlists)
+            {
+                playListResponses.Add(PlayListResponse.FromPlayList(playlist));
+            }
+            return Results.Ok(playListResponses);
+
+        });
+
+
 
 
 

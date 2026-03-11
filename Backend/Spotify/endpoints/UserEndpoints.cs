@@ -8,9 +8,15 @@ public static class UserEndpoints
     public static void MapUserEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
 
-        app.MapGet("/users", () =>
+        app.MapGet("/users/userPlayList", () =>
         {
             List<DataUser> dataUser = UserADO.GetAll(dbConn);
+            return Results.Ok(dataUser);
+        });
+
+         app.MapGet("/users", () =>
+        {
+            List<User> users = UserADO.GetAll(dbConn);
             return Results.Ok(dataUser);
         });
 

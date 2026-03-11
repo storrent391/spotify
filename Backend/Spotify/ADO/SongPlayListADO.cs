@@ -90,6 +90,62 @@ class SongPlaylistADO
         return songPlaylist;
     }
 
+ public static List<SongPlaylist>? GetSongPlaylistByPlayListbyID(DatabaseConnection dbConn, Guid Id)
+    {
+        List<SongPlaylist> songPlaylists = new();
+
+        dbConn.Open();
+        string sql = "SELECT Id, Song_Id, Playlist_Id FROM SongPlaylist WHERE Playlist_Id = @PlaylistId";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@PlaylistId", Id);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+        {
+            songPlaylists.Add(new SongPlaylist
+            {
+                Id = reader.GetGuid(0),
+                Song_Id = reader.GetGuid(1),
+                Playlist_Id = reader.GetGuid(2)
+            });
+        }
+
+        dbConn.Close();
+        return songPlaylists;
+    }
+
+
+public static List<Playlist>? GetSongPlaylistByUser(DatabaseConnection dbConn, Guid Id)
+    {
+        List<Playlist> playlists = new();
+
+        dbConn.Open();
+        string sql = "SELECT Id, Name, User_ID FROM Playlist WHERE User_Id = @User_ID";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@User_ID", Id);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+        {
+            playlists.Add(new Playlist
+            {
+                Id = reader.GetGuid(0),
+                Name = reader.GetString(1),
+                User_ID = reader.GetGuid(2)
+            });
+        }
+
+        dbConn.Close();
+        return playlists;
+    }
+
+
+
+
     public static bool Delete(DatabaseConnection dbConn, Guid id)
     {
         dbConn.Open();
