@@ -92,28 +92,30 @@ public class UserADO
         return dataUser;
     }
 
-     public static List<DataUser> GetAllUser(DatabaseConnection dbConn)
+    public static List<User> GetAllUser(DatabaseConnection dbConn)
     {
-        List<DataUser> dataUser = new();
+        List<User> users = new();
         dbConn.Open();
 
-        string sql = "SELECT ID, Name, Password, Salt, Correu, Estat,img FROM User";
+        string sql = "SELECT ID, Name, Correu ,Password,Salt FROM Users";
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         using SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
-            dataUser.Add(new DataUser
+            users.Add(new User
             {
-                User_ID = reader.GetGuid(0),
-                Playlist_ID = reader.GetGuid(1),
-                User_name = reader.GetString(2),
-                Playlist_name = reader.GetString(3)
+                Id = reader.GetGuid(0),
+                Name = reader.GetString(1),
+                Correu = reader.GetString(2),
+                Password = reader.GetString(3),
+                Salt = reader.GetString(4)
+
             });
         }
 
         dbConn.Close();
-        return dataUser;
+        return users;
     }
 
     public static User? GetById(DatabaseConnection dbConn, Guid id)

@@ -16,8 +16,8 @@ public static class UserEndpoints
 
          app.MapGet("/users", () =>
         {
-            List<User> users = UserADO.GetAll(dbConn);
-            return Results.Ok(dataUser);
+            List<User> users = UserADO.GetAllUser(dbConn);
+            return Results.Ok(users);
         });
 
 
