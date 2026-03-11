@@ -33,14 +33,8 @@ public static class SongEndpoints
 
 
         //GET
-        app.MapGet("/Songs", (Guid reqID) =>
+        app.MapGet("/Songs", () =>
         {
-            var perms = ValidacioPermisosADO.GetPermsById(dbConn, reqID);
-
-            if (!perms.Contains(CommonPermissions.GetUsers))
-                // return Results.StatusCode(403);
-                throw new Exception($"El usuari no te permisos per verure les Songs");
-
             List<Song> songs = SongADO.GetAll(dbConn);
             return Results.Ok(songs);
         });
@@ -58,7 +52,7 @@ public static class SongEndpoints
             ? Results.Ok(song)
             : Results.NotFound(new { message = $"Song with Id {Id} not found" });
         });
-        
+
         app.MapDelete("/Songs/{id}", (Guid Id) => SongADO.Delete(dbConn, Id) ? Results.NoContent() : Results.NotFound());
 
         app.MapPost("/Song/{id}/upload", async (Guid id, IFormFileCollection images) =>
@@ -77,7 +71,7 @@ public static class SongEndpoints
 
                 foreach (var image in images)
                 {
-                    tasques.Add(mediaService.ProcessAndInsertUploadedMedia( id, image));
+                    tasques.Add(mediaService.ProcessAndInsertUploadedMedia(id, image));
                 }
 
                 Media?[] medias = await Task.WhenAll(tasques);
@@ -91,10 +85,10 @@ public static class SongEndpoints
                 }
 
                 return Results.Ok(new { message = "Imatge pujada correctament." });
-            
 
 
-        }).DisableAntiforgery();
-    }             
+
+            }).DisableAntiforgery();
+    }
 }
 public record SongRequest(Guid Id, string Name);

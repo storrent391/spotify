@@ -18,6 +18,7 @@ public class DatabaseConnection
 
         try
         {
+            
             sqlConnection.Open();
             return true;
         }
