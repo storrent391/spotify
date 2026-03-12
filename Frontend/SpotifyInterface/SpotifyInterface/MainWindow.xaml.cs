@@ -20,6 +20,14 @@ namespace SpotifyInterface
             }
         }
 
+        private void OpenUsersWindow(object sender, RoutedEventArgs e)
+        {
+            AdminUsers objAdminUsersWindow = new AdminUsers();
+            this.Visibility = Visibility.Hidden;
+            objAdminUsersWindow.Show();
+        }
+
+
         private void OpenSongsWindow(object sender, RoutedEventArgs e)
         {
             SongManagementWindow objSongManagementWindow = new SongManagementWindow();
