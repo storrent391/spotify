@@ -78,7 +78,8 @@ public static class PlaylistEndpoints
             Playlist playlist = new Playlist
             {
                 Id = Guid.NewGuid(),
-                Name = req.Name
+                Name = req.Name,
+                User_ID = req.User_ID
             };
 
             PlaylistADO.Insert(dbConn, playlist);
@@ -98,7 +99,8 @@ public static class PlaylistEndpoints
             Playlist updated = new Playlist
             {
                 Id = id,
-                Name = req.Name
+                Name = req.Name,
+                User_ID = req.User_ID
             };
 
             PlaylistADO.Update(dbConn, updated);
@@ -112,4 +114,4 @@ public static class PlaylistEndpoints
 }
 
 // DTO pel request
-public record PlaylistRequest(Guid Id, string Name);
+public record PlaylistRequest(Guid Id, string Name,Guid User_ID);
