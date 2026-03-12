@@ -65,8 +65,23 @@ public static class PlaylistEndpoints
         });
 
 
+         // POST /SongPlayList
+        app.MapPost("/SongPlaylists", (SongPlaylistRequest req) =>
+        {
+            SongPlaylist songPlaylist = new SongPlaylist
+            {
+                Id = Guid.NewGuid(),
+                Song_Id = req.Song_Id,
+                Playlist_Id = req.Playlist_Id
+            };
 
+            SongPlaylistADO.Insert(dbConn, songPlaylist);
 
+            return Results.Created($"/playlists/{songPlaylist.Id}", songPlaylist);
+        });
+
+        // DELETE /Songplaylists/{id}
+        app.MapDelete("/SongPlaylists/{id}", (Guid id) => SongPlaylistADO.Delete(dbConn, id) ? Results.NoContent() : Results.NotFound());
 
 
 
@@ -78,7 +93,8 @@ public static class PlaylistEndpoints
             Playlist playlist = new Playlist
             {
                 Id = Guid.NewGuid(),
-                Name = req.Name
+                Name = req.Name,
+                User_ID = req.User_ID
             };
 
             PlaylistADO.Insert(dbConn, playlist);
@@ -98,7 +114,8 @@ public static class PlaylistEndpoints
             Playlist updated = new Playlist
             {
                 Id = id,
-                Name = req.Name
+                Name = req.Name,
+                User_ID = req.User_ID
             };
 
             PlaylistADO.Update(dbConn, updated);
@@ -112,4 +129,5 @@ public static class PlaylistEndpoints
 }
 
 // DTO pel request
-public record PlaylistRequest(Guid Id, string Name);
+public record PlaylistRequest(Guid Id, string Name,Guid User_ID);
+public record SongPlaylistRequest(Guid Id, Guid Song_Id,Guid Playlist_Id);
