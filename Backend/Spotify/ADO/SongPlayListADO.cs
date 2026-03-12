@@ -150,7 +150,7 @@ public static List<Playlist>? GetSongPlaylistByUser(DatabaseConnection dbConn, G
     {
         dbConn.Open();
 
-        string sql = @"DELETE FROM Playlist WHERE Id = @Id";
+        string sql = @"DELETE FROM SongPlaylist WHERE Id = @Id";
 
         using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
         cmd.Parameters.AddWithValue("@Id", id);
